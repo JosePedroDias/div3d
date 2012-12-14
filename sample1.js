@@ -12,54 +12,45 @@ var  a1  = Math.PI / 180;
 
 D.init();
 
-/*D.importDiv('#n1');
-D.sizeDiv('n1', [256, 256]);
 
-D.importDiv('#n2');
-D.sizeDiv('n2', [256, 256]);*/
 
-var o;
+var o, m, i;
 
 var sz = [256, 256];
 
-o = D.createDiv('n1', '#g1');
-o.resize(sz);
-o.element.innerHTML = '1';
+o = D.createDiv('g2', '#g1');
+o.element.className = 'group';
 
-o = D.createDiv('n2', '#g1');
-o.resize(sz);
-o.element.innerHTML = '2';
+for (i = 1; i <=4; ++i) {
+    o = D.createDiv('n' + i, '#g2');
+    o.resize(sz);
+    o.element.innerHTML = i;
 
-o = D.createDiv('n3', '#g1');
-o.resize(sz);
-o.element.innerHTML = '3';
+    m = o.matrix;
+    mat4.rotate(m, -a90*i, [1, 0, 0], m);
+    mat4.translate(m, [0, 0, 128], m);
+    o.update();
+}
 
-o = D.createDiv('n4', '#g1');
-o.resize(sz);
-o.element.innerHTML = '4';
+
 
 var a  = 0;    // current angle
 var vA = a45;  // angle change per second
-var oldT = 0;
+var prevT = 0;
+
 
 
 var render = function(t) {
     if (!t) { t = D.getT(); } // get precision timing if available, else fallback to date diff
-    var dt = t - oldT;
-    oldT = t;
-
-    //console.log(dt);
+    var dt = t - prevT;
+    prevT = t;
 
 	var o, m;
-
-    for (var i = 1; i <=4; ++i) {
-        o = D.get('n' + i);
-        m = o.matrix;
-        mat4.identity(m);
-        mat4.rotate(m, a - a90*i, [1, 0, 0], m);
-        mat4.translate(m, [0, 0, 128], m);
-        o.update();
-    }
+    o = D.get('g2');
+    m = o.matrix;
+    mat4.identity(m);
+    mat4.rotate(m, a, [1, 0, 0], m);
+    o.update();
 
 	a += vA * dt * 0.001;
 

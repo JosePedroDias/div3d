@@ -24,39 +24,37 @@ body {
     margin:                         0;
     padding:                        0;
     -webkit-transform-style:        preserve-3d;
-            /*transform-style:      preserve-3d;*/
+            transform-style:        preserve-3d;
     -webkit-backface-visibility:    hidden;
-            /*backface-visibility:  hidden;*/
+            backface-visibility:    hidden;
     pointer-events:                 none;
 }
 
 .node {
     position:                       absolute;
-    /*width:                          0;
-    height:                         0;*/
     -webkit-transform-origin:       center center;
-            /*transform-origin:     center center;*/
+            transform-origin:       center center;
     -webkit-backface-visibility:    hidden;
-            /*backface-visibility:  hidden;*/
+            backface-visibility:    hidden;
     -webkit-transform-style:        preserve-3d;
-            /*transform-style:      preserve-3d;*/
+            transform-style:        preserve-3d;
 }
 
 .surface {
     position:                       absolute;
     -webkit-transform-origin:       center center;
-            /*transform-origin:     center center;*/
+            transform-origin:       center center;
     -webkit-backface-visibility:    hidden;
-            /*backface-visibility:  hidden;*/
+            backface-visibility:    hidden;
 
-    -wxebkit-transform-style:        preserve-3d;
-    /*transform-style:      preserve-3d;*/
-    
+    -wxebkit-transform-style:       preserve-3d;
+             transform-style:       preserve-3d;
+
     -webkit-transform-style:        flat;
-            /*transform-style:      flat;*/
+            transform-style:        flat;
 
     -webkit-box-sizing:             border-box;
-            /*box-sizing:               border-box;*/
+            box-sizing:             border-box;
     -webkit-tap-highlight-color:    transparent;
     pointer-events:                 auto;
 }

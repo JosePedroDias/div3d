@@ -62,7 +62,7 @@ var div3d = (function() {
 
         importDiv: function(elOrSelector, id) {
             var el = $(elOrSelector);
-            var id = el.id || id;
+            id = el.id || id;
             if (!id) {
                 id = 'd' + this._lastId++;
                 ++this._lastId;
