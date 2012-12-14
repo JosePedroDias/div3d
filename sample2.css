@@ -6,6 +6,8 @@
 #n1, #n2 {
     width:                          512px;
     height:                         512px;
+    margin-left:-256px;
+    margin-top:-256px;
     text-align:                     center;
     line-height:                    512px;
     font-size:                      120px;

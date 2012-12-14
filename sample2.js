@@ -35,7 +35,7 @@ var render = function() {
 	mat4.identity(n1T);
 	mat4.scale(n1T, s, s, s, n1T);
 	mat4.rotate(n1T, a, [1, 0, 0], n1T);
-	mat4.translate(n1T, [-w/2, -w/2, 0], n1T);
+	//mat4.translate(n1T, [-w/2, -w/2, 0], n1T);
 	//console.log(n1T);
 	D._applyMatrix(n1E, n1T);
 
