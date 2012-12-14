@@ -1,0 +1,19 @@
+#s1, #s2 {
+    width:                          512px;
+    height:                         512px;
+    text-align:                     center;
+    line-height:                    512px;
+    font-size:                      120px;
+    font-weight:                    bold;
+}
+
+#s1 {
+    background-color:               lime;
+}
+
+#s2 {
+    xbackground-color:              #A0A;
+    background-color:               rgba(200, 0, 200, 0.25);
+    border:							4px solid rgba(255, 255, 255, 0.75);
+    xcolor:							#FFF;
+}
