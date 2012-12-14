@@ -1,54 +1,48 @@
 var D = div3d;
-var M = matrix;
 
+// some common angles in radians
 var a360 = Math.PI * 2;
 var a180 = Math.PI;
-var a90  = Math.PI / 2;
-var a60  = Math.PI / 3;
-var a45  = Math.PI / 4;
-var a30  = Math.PI / 6;
-var a10  = Math.PI / 18;
+var  a90 = Math.PI / 2;
+var  a60 = Math.PI / 3;
+var  a45 = Math.PI / 4;
+var  a30 = Math.PI / 6;
+var  a10 = Math.PI / 18;
+var  a1  = Math.PI / 180;
 
-var $ = function(a) { return document.querySelector(a); };
+D.init();
 
+D.importDiv('#n1');
+D.sizeDiv('n1', [256, 256]);
 
-
-var g1El = $('#g1');
-var s1El = $('#s1');
-var s2El = $('#s2');
-
-var W = window.innerWidth;
-var H = window.innerHeight;
-
-var camT = M.translate(W/2, H/2, 0);
-
-var w = 512;
-var s = 0.5;
-var s1T, s2T;
-
-D._applyMatrix(g1El, camT);
-
+D.importDiv('#n2');
+D.sizeDiv('n2', [256, 256]); 
 
 var a = -a90;
 
+
+
 var render = function() {
-	s1T = M.scale(s, s, s);
-	s1T = M.m( s1T, M.rotateX(a) );
-	s1T = M.m( s1T , M.translate(-w/2, -w/2, 0) );  // THIS HACK IS INCORRECT
-	D._applyMatrix(s1El, s1T);
+	var o, m;
 
-	s2T = M.scale(s, s, s);
-	s2T = M.m( s2T, M.rotateX(a) );
-	s2T = M.m( s2T , M.translate(-w/2, -w/2, 100) );  // THIS HACK IS INCORRECT
-	D._applyMatrix(s2El, s2T);
+	o = D.get('n1');
+	m = o.matrix;
+	mat4.identity(m);
+	mat4.rotate(m, a, [1, 0, 0], m);
+	mat4.translate(m, [0, 0, 128], m);
+	o.update();
 
+	o = D.get('n2');
+	m = o.matrix;
+	mat4.identity(m);
+	mat4.rotate(m, a+a90, [1, 0, 0], m);
+	mat4.translate(m, [0, 0, 128], m);
+	o.update();
 
-	a += a10/10;
+	a += a1;
 	if (a > a90) { a -= a180; }
 
 	requestAnimationFrame(render);
 };
 
-//setInterval(render, 10);
 render();
-
