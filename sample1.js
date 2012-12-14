@@ -12,11 +12,31 @@ var  a1  = Math.PI / 180;
 
 D.init();
 
-D.importDiv('#n1');
+/*D.importDiv('#n1');
 D.sizeDiv('n1', [256, 256]);
 
 D.importDiv('#n2');
-D.sizeDiv('n2', [256, 256]);
+D.sizeDiv('n2', [256, 256]);*/
+
+var o;
+
+var sz = [256, 256];
+
+o = D.createDiv('n1', '#g1');
+o.resize(sz);
+o.element.innerHTML = '1';
+
+o = D.createDiv('n2', '#g1');
+o.resize(sz);
+o.element.innerHTML = '2';
+
+o = D.createDiv('n3', '#g1');
+o.resize(sz);
+o.element.innerHTML = '3';
+
+o = D.createDiv('n4', '#g1');
+o.resize(sz);
+o.element.innerHTML = '4';
 
 var a  = 0;    // current angle
 var vA = a45;  // angle change per second
@@ -32,19 +52,14 @@ var render = function(t) {
 
 	var o, m;
 
-	o = D.get('n1');
-	m = o.matrix;
-	mat4.identity(m);
-	mat4.rotate(m, a, [1, 0, 0], m);
-	mat4.translate(m, [0, 0, 128], m);
-	o.update();
-
-	o = D.get('n2');
-	m = o.matrix;
-	mat4.identity(m);
-	mat4.rotate(m, a+a90, [1, 0, 0], m);
-	mat4.translate(m, [0, 0, 128], m);
-	o.update();
+    for (var i = 1; i <=4; ++i) {
+        o = D.get('n' + i);
+        m = o.matrix;
+        mat4.identity(m);
+        mat4.rotate(m, a - a90*i, [1, 0, 0], m);
+        mat4.translate(m, [0, 0, 128], m);
+        o.update();
+    }
 
 	a += vA * dt * 0.001;
 

@@ -1,9 +1,21 @@
 var div3d = (function() {
 
+    var $ = function(a) {
+        return (typeof a === 'string') ? document.querySelector(a) : a;
+    };
 
     var update = function() {
         D._updateMatrix(this);
-    }
+    };
+
+    var resize = function(dims) {
+        var el = this.element;
+        var s = el.style;
+        s.width      =     dims[0]    + 'px';
+        s.height     =     dims[1]    + 'px';
+        s.marginLeft = ~~(-dims[0]/2) + 'px';
+        s.marginTop  = ~~(-dims[1]/2) + 'px';
+    };
 
     return {
 
@@ -14,10 +26,6 @@ var div3d = (function() {
         _objects: {},
 
         _startT: undefined,
-
-        $: function(a) {
-            return (typeof a === 'string') ? document.querySelector(a) : a;
-        },
 
         init: function() {
             this._startT = new Date().valueOf();
@@ -40,18 +48,20 @@ var div3d = (function() {
         },
 
         createDiv: function(id, parentEl) {
-            var el = document.appendChild('div');
+            var el = document.createElement('div');
+            el.className = 'node';
             if (!id) {
                 id = 'd' + this._lastId++;
             }
             el.id = id;
             parentEl = parentEl ? $(parentEl) : this._containerEl;
+            parentEl.appendChild(el);
 
             return this._finishDiv(el, id);
         },
 
         importDiv: function(elOrSelector, id) {
-            var el = this.$(elOrSelector);
+            var el = $(elOrSelector);
             var id = el.id || id;
             if (!id) {
                 id = 'd' + this._lastId++;
@@ -62,16 +72,6 @@ var div3d = (function() {
             return this._finishDiv(el, id);
         },
 
-        sizeDiv: function(id, dims) {
-            var o = this.get(id);
-            var el = o.element;
-            var s = el.style;
-            s.width      =     dims[0]    + 'px';
-            s.height     =     dims[1]    + 'px';
-            s.marginLeft = ~~(-dims[0]/2) + 'px';
-            s.marginTop  = ~~(-dims[1]/2) + 'px';
-        },
-
         _finishDiv: function(el, id) {
             var mtx = mat4.create();
             mat4.identity(mtx);
@@ -80,6 +80,7 @@ var div3d = (function() {
                 element:  el,
                 matrices: [],
                 matrix:   mtx,
+                resize:   resize,
                 update:   update
             };
 
@@ -107,7 +108,6 @@ var div3d = (function() {
 
         _applyMatrix: function(el, mtx) {
             mtx = mat4.str(mtx);
-            //console.log(mtx);
             el.style.webkitTransform = ['matrix3d(', mtx, ')'].join('');
         }
 
