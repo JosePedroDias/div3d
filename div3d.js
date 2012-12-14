@@ -13,11 +13,15 @@ var div3d = (function() {
 
         _objects: {},
 
+        _startT: undefined,
+
         $: function(a) {
             return (typeof a === 'string') ? document.querySelector(a) : a;
         },
 
         init: function() {
+            this._startT = new Date().valueOf();
+
             this.importDiv('.container', 'ctn');
 
             this.importDiv('#g1');
@@ -29,6 +33,10 @@ var div3d = (function() {
 
         get: function(id) {
             return this._objects[id];
+        },
+
+        getT: function() {
+            return new Date().valueOf() - this._startT;
         },
 
         createDiv: function(id, parentEl) {
@@ -76,7 +84,7 @@ var div3d = (function() {
             };
 
             this._objects[id] = o;
-            
+
             return o;
         },
 

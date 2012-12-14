@@ -16,13 +16,20 @@ D.importDiv('#n1');
 D.sizeDiv('n1', [256, 256]);
 
 D.importDiv('#n2');
-D.sizeDiv('n2', [256, 256]); 
+D.sizeDiv('n2', [256, 256]);
 
-var a = -a90;
+var a  = 0;    // current angle
+var vA = a45;  // angle change per second
+var oldT = 0;
 
 
+var render = function(t) {
+    if (!t) { t = D.getT(); } // get precision timing if available, else fallback to date diff
+    var dt = t - oldT;
+    oldT = t;
 
-var render = function() {
+    //console.log(dt);
+
 	var o, m;
 
 	o = D.get('n1');
@@ -39,8 +46,7 @@ var render = function() {
 	mat4.translate(m, [0, 0, 128], m);
 	o.update();
 
-	a += a1;
-	if (a > a90) { a -= a180; }
+	a += vA * dt * 0.001;
 
 	requestAnimationFrame(render);
 };
