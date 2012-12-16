@@ -1,9 +1,11 @@
 var div3d = (function() {
 
+    // utility
     var $ = function(a) {
         return (typeof a === 'string') ? document.querySelector(a) : a;
     };
 
+    // the following are assigned to div3d objects as methods
     var update = function() {
         D._updateMatrix(this);
     };

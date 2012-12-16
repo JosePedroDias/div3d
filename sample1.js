@@ -19,7 +19,6 @@ var o, m, i;
 var sz = [256, 256];
 
 o = D.createDiv('g2', '#g1');
-o.element.className = 'group';
 
 for (i = 1; i <=4; ++i) {
     o = D.createDiv('n' + i, '#g2');
@@ -49,6 +48,7 @@ var render = function(t) {
     o = D.get('g2');
     m = o.matrix;
     mat4.identity(m);
+    mat4.translate(m, [0, 0, -50], m);
     mat4.rotate(m, a, [1, 0, 0], m);
     o.update();
 
