@@ -18,10 +18,10 @@ var o, m, i;
 
 var sz = [256, 256];
 
-o = D.createDiv('g2', '#g1');
+o = D.createDiv('cube');
 
 for (i = 1; i <=4; ++i) {
-    o = D.createDiv('n' + i, '#g2');
+    o = D.createDiv('f' + i, '#cube');
     o.resize(sz);
     o.element.innerHTML = i;
 
@@ -45,7 +45,7 @@ var render = function(t) {
     prevT = t;
 
 	var o, m;
-    o = D.get('g2');
+    o = D.get('cube');
     m = o.matrix;
     mat4.identity(m);
     mat4.translate(m, [0, 0, -50], m);

@@ -32,9 +32,14 @@ var div3d = (function() {
         init: function() {
             this._startT = new Date().valueOf();
 
+            if (!$('container')) {
+                var el = document.createElement('div');
+                el.className = 'container';
+                document.body.appendChild(el);
+            }
             this.importDiv('.container', 'ctn');
 
-            this.importDiv('#g1');
+            this.createDiv('g0', '#ctn');
 
             this._onResize();
 
@@ -56,7 +61,7 @@ var div3d = (function() {
                 id = 'd' + this._lastId++;
             }
             el.id = id;
-            parentEl = parentEl ? $(parentEl) : this._containerEl;
+            parentEl = parentEl ? $(parentEl) : $('#g0');    // should be '.container'
             parentEl.appendChild(el);
 
             return this._finishDiv(el, id);
@@ -64,10 +69,15 @@ var div3d = (function() {
 
         importDiv: function(elOrSelector, id) {
             var el = $(elOrSelector);
-            id = el.id || id;
-            if (!id) {
-                id = 'd' + this._lastId++;
-                ++this._lastId;
+
+            if (el.id) {
+                id = el.id;
+            }
+            else {
+                if (!id) {
+                    id = 'd' + this._lastId++;
+                    ++this._lastId;
+                }
                 el.id = id;
             }
 
@@ -96,7 +106,7 @@ var div3d = (function() {
             var H = window.innerHeight;
             this._containerDims = [W, H];
 
-            var o = this.get('g1');
+            var o = this.get('g0');
             var m = o.matrix;
 
             mat4.identity(m);
