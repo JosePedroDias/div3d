@@ -5,19 +5,60 @@ var div3d = (function() {
         return (typeof a === 'string') ? document.querySelector(a) : a;
     };
 
-    // the following are assigned to div3d objects as methods
-    var update = function() {
-        D._updateMatrix(this);
+
+
+    var D3D = function(el, mtx) {
+        this.element = el;
+        this.matrix = mtx;
     };
 
-    var resize = function(dims) {
-        var el = this.element;
-        var s = el.style;
-        s.width      =     dims[0]    + 'px';
-        s.height     =     dims[1]    + 'px';
-        s.marginLeft = ~~(-dims[0]/2) + 'px';
-        s.marginTop  = ~~(-dims[1]/2) + 'px';
+    D3D.prototype = {
+
+        update: function() {
+            D._updateMatrix(this);
+        },
+
+        resize: function(dims) {
+            var el = this.element;
+            var s = el.style;
+            s.width      =     dims[0]    + 'px';
+            s.height     =     dims[1]    + 'px';
+            s.marginLeft = ~~(-dims[0]/2) + 'px';
+            s.marginTop  = ~~(-dims[1]/2) + 'px';
+        },
+
+        addClass: function(clsName) {
+            this.element.classList.add(clsName);
+        },
+
+        removeClass: function(clsName) {
+            this.element.classList.remove(clsName);
+        },
+
+        clear: function() {
+            mat4.identity(this.matrix);
+        },
+
+        translate: function(vec) {
+            mat4.translate(this.matrix, vec, this.matrix);
+        },
+
+        rotate: function(angle, axis) {
+            mat4.rotate(this.matrix, angle, axis, this.matrix);
+        },
+
+        scale: function(sx, sy, sz) {
+            if (arguments.length === 1) {
+                sy = sx;
+                sz = sx;
+            }
+            mat4.scale(this.matrix, [sx, sy, sz], this.matrix);
+        }
+
     };
+
+    // the following are assigned to div3d objects as methods
+
 
     return {
 
@@ -88,13 +129,7 @@ var div3d = (function() {
             var mtx = mat4.create();
             mat4.identity(mtx);
 
-            var o = {
-                element:  el,
-                matrices: [],
-                matrix:   mtx,
-                resize:   resize,
-                update:   update
-            };
+            var o = new D3D(el, mtx);
 
             this._objects[id] = o;
 

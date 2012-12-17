@@ -25,10 +25,8 @@ for (i = 1; i <=4; ++i) {
     o.resize(sz);
     o.element.innerHTML = i;
     o.element.classList.add('cubeFace');
-
-    m = o.matrix;
-    mat4.rotate(m, -a90*i, [1, 0, 0], m);
-    mat4.translate(m, [0, 0, 128], m);
+    o.rotate(-a90*i, [1, 0, 0]);
+    o.translate([0, 0, 128]);
     o.update();
 }
 
@@ -41,9 +39,9 @@ for (i = 1; i <= 6; ++i) {
     o.resize([400, 100]);
     o.element.innerHTML = 'DIV3D';
     o.element.style.webkitBackfaceVisibility = 'visible';
-    m = o.matrix;
-    mat4.rotate(m, a60*i, [0, 1, 0], m);
-    mat4.translate(m, [0, 0, 240], m);
+
+    o.rotate(a60*i, [0, 1, 0]);
+    o.translate([0, 0, 240]);
     o.update();
 }
 
@@ -62,18 +60,13 @@ var render = function(t) {
 	var o, m;
 
     o = D.get('cube');
-    m = o.matrix;
-    mat4.identity(m);
-    //mat4.translate(m, [0, 0, -50], m);
-    mat4.rotate(m, a, [1, 0, 0], m);
+    o.clear();
+    o.rotate(a, [1, 0, 0]);
     o.update();
 
     o = D.get('orbit');
-    m = o.matrix;
-    mat4.identity(m);
-
-    mat4.rotate(m, a, [0, 1, 0], m);
-    //mat4.translate(m, [0, 0, 150], m);
+    o.clear();
+    o.rotate(a, [0, 1, 0]);
     o.update();
 
 	a += vA * dt * 0.001;

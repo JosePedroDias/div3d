@@ -58,3 +58,12 @@ body {
     -webkit-tap-highlight-color:    transparent;
     pointer-events:                 auto;
 }
+
+.interactive {
+    pointer-events:                 auto;
+}
+
+.content .doubleSided {
+    -webkit-backface-visibility:    visible;
+            backface-visibility:    visible;
+}
