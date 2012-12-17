@@ -22,6 +22,7 @@ o = D.createDiv('cube');
 
 for (i = 1; i <=4; ++i) {
     o = D.createDiv('f' + i, '#cube');
+    o.addClass('interactive');
     o.resize(sz);
     o.element.innerHTML = i;
     o.element.classList.add('cubeFace');
@@ -35,16 +36,22 @@ o.update();
 
 for (i = 1; i <= 6; ++i) {
     o = D.createDiv(undefined, '#orbit');
-    o.element.classList.add('title');
+    o.addClass('title');
+    o.addClass('doubleSided');
     o.resize([400, 100]);
     o.element.innerHTML = 'DIV3D';
-    o.element.style.webkitBackfaceVisibility = 'visible';
 
     o.rotate(a60*i, [0, 1, 0]);
     o.translate([0, 0, 240]);
     o.update();
 }
 
+/*document.body.addEventListener('click', function(ev) {
+    var el = ev.target;
+    console.log(el);
+    while (!el.id) { el = el.parent; }
+    console.log(el.id);
+});*/
 
 var a  = 0;    // current angle
 var vA = a45;  // angle change per second

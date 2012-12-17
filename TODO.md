@@ -1,17 +1,23 @@
 # TODOs
 
-common transform methods exposed from obj
 
-utility constructors:
+
+## utility constructors:
 
 * box
 * cube (inverted option for sky boxes)
 * cylinder
 
-camera abstraction
 
-look at
 
-samples with kb and mouse
+## camera abstractions
 
-trackball exploration
+* look at
+* isometric / ortho (are these possible?)
+
+
+
+## samples:
+
+* coverflow
+* airport clock

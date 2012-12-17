@@ -8,6 +8,10 @@ var div3d = (function() {
 
 
     var D3D = function(el, mtx) {
+        if (!mtx) {
+            mtx = mat4.create();
+            mat4.identity(mtx);
+        }
         this.element = el;
         this.matrix = mtx;
     };
@@ -15,7 +19,7 @@ var div3d = (function() {
     D3D.prototype = {
 
         update: function() {
-            D._updateMatrix(this);
+            this.element.style.webkitTransform = ['matrix3d(', mat4.str(this.matrix), ')'].join('');
         },
 
         resize: function(dims) {
@@ -53,6 +57,20 @@ var div3d = (function() {
                 sz = sx;
             }
             mat4.scale(this.matrix, [sx, sy, sz], this.matrix);
+        },
+
+        opacity: function(n) {
+            if      (n < 0) { n = 0; }
+            else if (n > 1) { n = 1; }
+            this.element.style.opacity = n;
+        },
+
+        color: function(c) {
+            this.element.style.backgroundColor = c;
+        },
+
+        image: function(uri, origin, dims) {
+            // TODO
         }
 
     };
@@ -63,12 +81,11 @@ var div3d = (function() {
     return {
 
         _containerDims: [0, 0],
-
         _lastId: 1,
-
         _objects: {},
-
         _startT: undefined,
+
+
 
         init: function() {
             this._startT = new Date().valueOf();
@@ -125,14 +142,27 @@ var div3d = (function() {
             return this._finishDiv(el, id);
         },
 
+        createBox: function(opts) {
+            /*
+                TODO:
+                    {Number[3]} dimensions,
+                    {Function}  forEach
+            */
+        },
+
+        createCylinder: function(opts) {
+            /*
+                {Number[2]} dimensions
+                {Number}    faces,
+                {String}    axis
+            */
+        },
+
+
+
         _finishDiv: function(el, id) {
-            var mtx = mat4.create();
-            mat4.identity(mtx);
-
-            var o = new D3D(el, mtx);
-
+            var o = new D3D(el);
             this._objects[id] = o;
-
             return o;
         },
 
@@ -142,20 +172,9 @@ var div3d = (function() {
             this._containerDims = [W, H];
 
             var o = this.get('g0');
-            var m = o.matrix;
-
-            mat4.identity(m);
-            mat4.translate(m, [W/2, H/2, 0]);
-            this._updateMatrix(o);
-        },
-
-        _updateMatrix: function(o) {
-            this._applyMatrix(o.element, o.matrix);
-        },
-
-        _applyMatrix: function(el, mtx) {
-            mtx = mat4.str(mtx);
-            el.style.webkitTransform = ['matrix3d(', mtx, ')'].join('');
+            o.clear();
+            o.translate([W/2, H/2, 0]);
+            o.update();
         }
 
     };
