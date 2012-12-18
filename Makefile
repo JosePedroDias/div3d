@@ -50,6 +50,4 @@ lint: src/div3d.js
 
 
 docs:
-	@rm -rf docs
-	@mkdir docs
 	@yuidoc -c .yuidoc.json --no-code -T default -q ./src

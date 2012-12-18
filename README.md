@@ -12,7 +12,7 @@ my take on famo.us-like experiments, that is, CSS3 transforms
 
 * [documentation](http://josepedrodias.github.com/div3d/docs/)
 
-* [TODO](http://josepedrodias.github.com/div3d/TODO.md)
+* [TODO](https://github.com/JosePedroDias/div3d/blob/master/TODO.md)
 
 
 

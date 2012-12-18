@@ -21,7 +21,7 @@
     // 90 degrees in radians
     var rad90 = Math.PI / 2;
 
-    // auxiliary stuff for the div3d.createBox() method
+    // auxiliary stuff for the DIV3D.createBox() method
     var boxStuff = [
         [ [2, 1], [ 0, -1, 0] ], // -x
         [ [2, 1], [ 0,  1, 0] ], // +x
@@ -35,15 +35,16 @@
 
     /**
      * The D3D class exposes an API to manipulate div3d quads (divs).
-     * This constructor is rarely called by the end client.
+     * This constructor isn't expected to be called by the end client.
+     * Use DIV3D.createDiv() and DIV3D.importDiv() instead.
      *
      * @class D3D
      * @constructor
      * @param {DomElement}  el   the DOM element to assign to the object
      * @param {mat4}        mtx  the transformation matrix to assign to the object
      *
-     * @see div3d.createDiv
-     * @see div3d.importDiv
+     * @see DIV3D.createDiv
+     * @see DIV3D.importDiv
      */
     var D3D = function(el, mtx) {
         if (!mtx) {
@@ -194,7 +195,7 @@
          * @method init
          */
         init: function() {
-            /*log 'div3d.init() called'*/
+            /*log 'DIV3D.init() called'*/
 
             this._startT = new Date().valueOf();
 
@@ -214,10 +215,13 @@
 
         /**
          * should be called at the beginning of the requestAnimationFrame callback, passing it its first argument.
+         * the API exposes DIV3D._t and DIV3D._dt
          *
          * @method time
          * @param {Number} t
-         * @see div3d._t
+         *
+         * @see DIV3D._t
+         * @see DIV3D._dt
          */
         time: function(t) {
             if (!t) { t = new Date().valueOf() - this._startT; } // get precision timing if available, else fallback to date diff
