@@ -4,6 +4,10 @@ all: lint min minBundle debugBundle docs
 .PHONY: docs
 
 
+clean:
+	@rm -rf ./docs ./bin ./jsdev.c ./jsdev
+
+
 $(CURDIR)/jsdev.c:
 	@wget https://raw.github.com/douglascrockford/JSDev/master/jsdev.c
 
@@ -13,6 +17,7 @@ $(CURDIR)/jsdev: $(CURDIR)/jsdev.c
 
 
 copyToBin:
+	@mkdir -p bin
 	@cp aux/gl-matrix.js bin/gl-matrix.js
 	@cp aux/raf.js       bin/raf.js
 	@cp src/div3d.js     bin/div3d.js
