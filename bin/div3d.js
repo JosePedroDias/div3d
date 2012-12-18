@@ -5,6 +5,17 @@ var div3d = (function() {
         return (typeof a === 'string') ? document.querySelector(a) : a;
     };
 
+    var rad90 = Math.PI / 2;
+
+    var boxStuff = [
+        [ [2, 1], [ 0, -1, 0] ], // -x
+        [ [2, 1], [ 0,  1, 0] ], // +x
+        [ [0, 2], [-1,  0, 0] ], // -y
+        [ [0, 2], [ 1,  0, 0] ], // +y
+        [ [0, 1], [ 0,  0, 0] ], // -z
+        [ [0, 1], [ 0,  1, 0] ]  // +z
+    ];
+
 
 
     var D3D = function(el, mtx) {
@@ -104,6 +115,13 @@ var div3d = (function() {
             window.addEventListener('resize', function() { D._onResize(); });
         },
 
+        time: function(t) {
+            if (!t) { t = this.getT(); } // get precision timing if available, else fallback to date diff
+            this._dt = t - (this._t || 1/60);
+            this._t = t;
+            return this._dt;
+        },
+
         get: function(id) {
             return this._objects[id];
         },
@@ -142,12 +160,52 @@ var div3d = (function() {
             return this._finishDiv(el, id);
         },
 
+        /**
+         * -x, +x. -y, +y, -z, +z
+         */
         createBox: function(opts) {
+            var dims, f, g = this.createDiv(opts.id, opts.parentEl);
+            var a, b;
             /*
                 TODO:
-                    {Number[3]} dimensions,
-                    {Function}  forEach
+                    {String}     parentEl
+                    {Number[3]}  dimensions
+                    {Boolean[6]} skips
+                    {Function}   forEach
             */
+
+            for (var i = 0; i < 6; ++i) {
+                if (opts.skips && opts.skips.indexOf(i) !== -1) { continue; }
+                f = this.createDiv(undefined, g.element);
+
+                a = boxStuff[i][0];
+                b = opts.dimensions;
+                dims = [b[a[0]], b[a[1]]];
+                f.resize(dims);
+
+                a = [0, 0, 0];
+                b = ~~(i/2);
+                a[b] = opts.dimensions[b] / (i % 2 ? -2 : 2) * (b === 0 ? -1 : 1);
+                f.translate(a);
+
+                /*if (opts.invert) {
+                    a = [1, 1, 1];
+                    b = ~~(i/2);
+                    a[b] = -1;
+                    //f.scale(a);
+                    mat4.multiplyVec3(f.matrix, a, f.matrix);
+                    //console.log(a);
+                }*/
+
+                if (i < 6) {
+                    f.rotate(rad90 * (i === 5 ? 2 : 1), boxStuff[i][1]);
+                }
+                if (opts.forEach) {
+                    opts.forEach(f, i, dims);
+                }
+
+                f.update();
+            }
         },
 
         createCylinder: function(opts) {
