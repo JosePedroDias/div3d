@@ -1,0 +1,14 @@
+.container {
+    -webkit-perspective:            450px;
+            perspective:            450px;
+}
+
+.face {
+}
+
+.f1 { background-color: #A0A; }
+.f2 { background-color: #AA0; }
+.f3 { background-color: #0AA; }
+.f4 { background-color: #A44; }
+.f5 { background-color: #44A; }
+.f6 { background-color: #4A4; }

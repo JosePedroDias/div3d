@@ -40,9 +40,7 @@ var prevT = 0;
 
 
 var render = function(t) {
-    if (!t) { t = D.getT(); } // get precision timing if available, else fallback to date diff
-    var dt = t - prevT;
-    prevT = t;
+    var dt = D.time(t);
 
 	var o, m;
     o = D.get('cube');

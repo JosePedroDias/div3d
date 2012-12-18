@@ -4,7 +4,6 @@
 
 ## utility constructors:
 
-* box
 * cube (inverted option for sky boxes)
 * cylinder
 
