@@ -35,7 +35,7 @@
             "namespaces": {},
             "tag": "main",
             "file": "src/div3d.js",
-            "line": 177,
+            "line": 178,
             "itemtype": "main"
         }
     },
@@ -52,7 +52,7 @@
             "namespace": "",
             "file": "src/div3d.js",
             "line": 36,
-            "description": "The D3D class exposes an API to manipulate div3d quads (divs).\nThis constructor is rarely called by the end client.",
+            "description": "The D3D class exposes an API to manipulate div3d quads (divs).\nThis constructor isn't expected to be called by the end client.\nUse DIV3D.createDiv() and DIV3D.importDiv() instead.",
             "is_constructor": 1,
             "params": [
                 {
@@ -67,8 +67,8 @@
                 }
             ],
             "see": [
-                "div3d.createDiv",
-                "div3d.importDiv"
+                "DIV3D.createDiv",
+                "DIV3D.importDiv"
             ]
         },
         "DIV3D": {
@@ -82,7 +82,7 @@
             "module": "div3d",
             "namespace": "",
             "file": "src/div3d.js",
-            "line": 177,
+            "line": 178,
             "description": "DIV3D public interface",
             "static": 1
         }
@@ -90,7 +90,7 @@
     "classitems": [
         {
             "file": "src/div3d.js",
-            "line": 59,
+            "line": 60,
             "description": "call this method once you're done with updating transformations.",
             "itemtype": "method",
             "name": "update",
@@ -99,7 +99,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 68,
+            "line": 69,
             "description": "sets the div dimensions. the divs keeps centered over its pivot point.",
             "itemtype": "method",
             "name": "resize",
@@ -115,7 +115,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 83,
+            "line": 84,
             "description": "adds a CSS class to the object's element.",
             "itemtype": "method",
             "name": "addClass",
@@ -131,7 +131,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 93,
+            "line": 94,
             "description": "adds a CSS class from the object's element.",
             "itemtype": "method",
             "name": "removeClass",
@@ -147,7 +147,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 103,
+            "line": 104,
             "description": "clears transformation matrix (sets it to the identity matrix).\nuse this prior to assigning a new set of matrices to transform an object.",
             "itemtype": "method",
             "name": "clear",
@@ -156,7 +156,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 113,
+            "line": 114,
             "description": "translates to object.",
             "itemtype": "method",
             "name": "translate",
@@ -172,7 +172,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 123,
+            "line": 124,
             "description": "rotates the object.",
             "itemtype": "method",
             "name": "rotate",
@@ -193,7 +193,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 134,
+            "line": 135,
             "description": "scales the object.",
             "itemtype": "method",
             "name": "scale",
@@ -209,7 +209,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 147,
+            "line": 148,
             "description": "sets the object's opacity.",
             "itemtype": "method",
             "name": "opacity",
@@ -225,7 +225,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 159,
+            "line": 160,
             "description": "sets the object's color.",
             "itemtype": "method",
             "name": "color",
@@ -241,7 +241,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 191,
+            "line": 192,
             "description": "should be called once at the start",
             "itemtype": "method",
             "name": "init",
@@ -250,8 +250,8 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 215,
-            "description": "should be called at the beginning of the requestAnimationFrame callback, passing it its first argument.",
+            "line": 216,
+            "description": "should be called at the beginning of the requestAnimationFrame callback, passing it its first argument.\nthe API exposes DIV3D._t and DIV3D._dt",
             "itemtype": "method",
             "name": "time",
             "params": [
@@ -262,14 +262,15 @@
                 }
             ],
             "see": [
-                "div3d._t"
+                "DIV3D._t",
+                "DIV3D._dt"
             ],
             "class": "DIV3D",
             "module": "div3d"
         },
         {
             "file": "src/div3d.js",
-            "line": 229,
+            "line": 233,
             "description": "gets an object from its id.",
             "itemtype": "method",
             "name": "get",
@@ -285,7 +286,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 239,
+            "line": 243,
             "description": "creates a div object.",
             "itemtype": "method",
             "name": "createDiv",
@@ -306,7 +307,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 259,
+            "line": 263,
             "description": "imports an existing element from the DOM.",
             "itemtype": "method",
             "name": "importDiv",
@@ -327,7 +328,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 283,
+            "line": 287,
             "description": "creates a 6 sided box. The order of the faces is -x, +x, -y, +y, -z, +z.",
             "itemtype": "method",
             "name": "createBox",
