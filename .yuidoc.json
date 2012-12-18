@@ -1,0 +1,11 @@
+{
+    "name":        "div3d",
+    "description": "my take on transformed CSS",
+    "version":     "0.1",
+    "url":         "https://github.com/JosePedroDias/div3d",
+    "logo":        " ",
+    "paths":       ["./src/*.js"],
+    "options": {
+        "outdir": "./docs"
+    }
+}

@@ -1,12 +1,7 @@
 {
-    /* http://www.jshint.com/docs/ https://github.com/jshint/jshint/blob/master/README.md */
-
     "globals": {
-        "D":         false,
-        'div3d':     false,
-        "mat4":      false,
+        "mat4":      false
     },
-
     "boss" :         false,
     "browser":       true,
     "curly":         true,
@@ -20,7 +15,6 @@
     "laxbreak":      true,
     "maxcomplexity": 12,
     "maxdepth":      6,
-    /*"maxparams":     4,*/
     "maxstatements": 60,
     "newcap":        false,
     "noarg":         true,

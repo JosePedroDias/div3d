@@ -1,11 +1,15 @@
-var D = div3d;
+/*global DIV3D:false, requestAnimationFrame:false */
+
+var D = DIV3D;
+
+
 
 D.init();
 
 //var A = ['-x', '+x', '-y', '+y', '-z', '+z'];
 var A = ['esq', 'dir', 'bai', 'cim', 'fre', 'trá'];
 
-var cube = D.createBox({
+D.createBox({
     skips:       [],
     invert:      true,
     id:         'cube',
@@ -26,7 +30,7 @@ var vA = Math.PI/4;
 var render = function(t) {
     var dt = D.time(t);
 
-	var o, m;
+	var o;
     o = D.get('cube');
     o.clear();
     o.rotate(a, [0.33, 0.66, 0]);
