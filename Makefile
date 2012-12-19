@@ -1,16 +1,35 @@
-all: lint min minBundle debugBundle css docs
+
+all: checkCommands lint min minBundle debugBundle css docs
 
 
 .PHONY: docs
 
 
+checkCommands:
+ifeq ($(shell which lessc),)
+	$(error lessc not found! Do: sudo npm install -g less)
+endif
+ifeq ($(shell which jshint),)
+	$(error jshint not found! Do: sudo npm install -g jshint)
+endif
+ifeq ($(shell which uglifyjs),)
+	$(error uglifyjs not found! Do: sudo npm install -g uglify-js)
+endif
+ifeq ($(shell which yuidoc),)
+	$(error yuidoc not found! Do: sudo npm install -g yuidocjs)
+endif
+
+
 clean:
-	@rm -rf ./docs ./bin ./jsdev.c ./jsdev
+	@rm -rf docs bin jsdev.c jsdev
 
 
 $(CURDIR)/jsdev.c:
-	#@wget https://raw.github.com/douglascrockford/JSDev/master/jsdev.c
+ifneq ($(shell which wget),)
+	@wget https://raw.github.com/douglascrockford/JSDev/master/jsdev.c
+else
 	@curl -O https://raw.github.com/douglascrockford/JSDev/master/jsdev.c
+endif
 
 
 $(CURDIR)/jsdev: $(CURDIR)/jsdev.c
