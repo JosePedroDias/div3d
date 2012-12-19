@@ -1,7 +1,5 @@
 /*global DIV3D:true */
 
-{alert('RUNNING DEBUG VERSION'); }
-
 /**
  * @module div3d
  * @main   div3d
@@ -12,6 +10,13 @@
 (function() {
 
     // internal stuff, not exposed
+
+    {
+     var assertNumber = function(n, m) { if (typeof n !== 'number') { throw m || 'must be number('+n+')'; } };
+     var assertBetween = function(n, a, b, m) { if (n < a || b > b) { throw m || 'must be between '+a+' and '+b+' ('+n+')'; } };
+     var assertString = function(s, m) { if (typeof s !== 'string') { throw m || 'must be string('+s+')'; } };
+     var assertVecN = function(v, n, m) { if ((!v instanceof Array) || (v.length !== n)) { throw m || 'must be array of size '+n+' ('+v+')'; } };
+     }
 
     // utility method to resolve CSS selectors
     var $ = function(a) {
@@ -88,16 +93,18 @@
          * @param {String} clsName
          */
         addClass: function(clsName) {
+            {assertString(clsName, '1st argument must be a string');}
             this.element.classList.add(clsName);
         },
 
         /**
-         * adds a CSS class from the object's element.
+         * removes a CSS class from the object's element.
          *
          * @method removeClass
          * @param {String} clsName
          */
         removeClass: function(clsName) {
+            {assertString(clsName, '1st argument must be a string');}
             this.element.classList.remove(clsName);
         },
 
@@ -118,6 +125,7 @@
          * @param {Number[3]}  vec  is a 3 numbers array (dx, dy, dz)
          */
         translate: function(vec) {
+            {assertVecN(vec, 3, '1st argument must be a Number[3]');}
             mat4.translate(this.matrix, vec, this.matrix);
         },
 
@@ -129,6 +137,8 @@
          * @param {Number[3]}  axis   is a 3D versor, that is, a 3 dimensions vector with norm 1
          */
         rotate: function(angle, axis) {
+            {assertNumber(angle, '1st argument must be a Number');}
+            {assertVecN(vec, 3, '2nd argument must be a Number[3]');}
             mat4.rotate(this.matrix, angle, axis, this.matrix);
         },
 
@@ -142,6 +152,7 @@
             if (typeof s === 'number') {
                 s = [s, s, s];
             }
+            {assertVecN(s, 3, '1st argument must be a Number or Number[3]');}
             mat4.scale(this.matrix, s, this.matrix);
         },
 
@@ -152,8 +163,7 @@
          * @param {Number}  n  a float ranging from 0 to 1
          */
         opacity: function(n) {
-            if      (n < 0) { n = 0; }
-            else if (n > 1) { n = 1; }
+            {assertBetween(n, 0, 1, '1st argument must be a number between 0 and 1');}
             this.element.style.opacity = n;
         },
 
@@ -219,6 +229,7 @@
          *
          * @method time
          * @param {Number} t
+         * @return {Number} dt
          *
          * @see DIV3D._t
          * @see DIV3D._dt
@@ -235,6 +246,7 @@
          *
          * @method get
          * @param {String} id
+         * @return {D3D} d3d object
          */
         get: function(id) {
             return this._objects[id];
@@ -246,6 +258,7 @@
          * @method createDiv
          * @param {String|undefined}   id        an optional id to set. if falsy div3d assigns it one automatically
          * @param {DOMElement|String}  parentEl  is a DOM element or a CSS selector to it. if ommitted the div gets assigned to the root node.
+         * @return {D3D} d3d object
          */
         createDiv: function(id, parentEl) {
             var el = document.createElement('div');
@@ -266,6 +279,7 @@
          * @method importDiv
          * @param {DOMElement|String}  elOrSelector  DOM element or a CSS selector to it
          * @param {String|undefined}   optional id to assign to the element if it has none. if falsy div3d assigns it one automatically.
+         * @return {D3D} d3d object
          */
         importDiv: function(elOrSelector, id) {
             var el = $(elOrSelector);
