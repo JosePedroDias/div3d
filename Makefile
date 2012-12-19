@@ -1,4 +1,4 @@
-all: lint min minBundle debugBundle docs
+all: lint min minBundle debugBundle css docs
 
 
 .PHONY: docs
@@ -9,7 +9,8 @@ clean:
 
 
 $(CURDIR)/jsdev.c:
-	@wget https://raw.github.com/douglascrockford/JSDev/master/jsdev.c
+	#@wget https://raw.github.com/douglascrockford/JSDev/master/jsdev.c
+	@curl -O https://raw.github.com/douglascrockford/JSDev/master/jsdev.c
 
 
 $(CURDIR)/jsdev: $(CURDIR)/jsdev.c
@@ -21,7 +22,10 @@ copyToBin:
 	@cp aux/gl-matrix.js bin/gl-matrix.js
 	@cp aux/raf.js       bin/raf.js
 	@cp src/div3d.js     bin/div3d.js
-	@cp src/div3d.css    bin/div3d.css
+
+
+css:
+	@lessc src/div3d.less > bin/div3d.css
 
 
 bundle: copyToBin

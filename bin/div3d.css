@@ -1,69 +1,60 @@
-html, body {
-    margin:             0;
-    padding:            0;
-    width:              100%;
-    height:             100%;
-    overflow:           hidden;
-    background-color:   #000;
-}
-
+html,
 body {
-    font-family:                    sans-serif;
-    -webkit-transform-style:        flat;
-            transform-style:        flat;
-    -webkit-font-smoothing:         antialiased;
-    -webkit-tap-highlight-color:    transparent;
-    -webkit-perspective:            0;
-    -webkit-transform:              translateZ(-999999px);  /* WHY? */
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #000;
 }
-
+body {
+  -webkit-transform-style: flat;
+  transform-style: flat;
+  -webkit-perspective: 0;
+  perspective: 0;
+  font-family: sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-transform: translateZ(-999999px);
+}
 .container {
-    position:                       absolute;
-    width:                          100%;
-    height:                         100%;
-    margin:                         0;
-    padding:                        0;
-    -webkit-transform-style:        preserve-3d;
-            transform-style:        preserve-3d;
-    -webkit-backface-visibility:    hidden;
-            backface-visibility:    hidden;
-    pointer-events:                 none;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
 }
-
 .node {
-    position:                       absolute;
-    -webkit-transform-origin:       center center;
-            transform-origin:       center center;
-    -webkit-backface-visibility:    hidden;
-            backface-visibility:    hidden;
-    -webkit-transform-style:        preserve-3d;
-            transform-style:        preserve-3d;
+  -webkit-transform-origin: center center;
+  transform-origin: center center;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  position: absolute;
 }
-
 .surface {
-    position:                       absolute;
-    -webkit-transform-origin:       center center;
-            transform-origin:       center center;
-    -webkit-backface-visibility:    hidden;
-            backface-visibility:    hidden;
-
-    -wxebkit-transform-style:       preserve-3d;
-             transform-style:       preserve-3d;
-
-    -webkit-transform-style:        flat;
-            transform-style:        flat;
-
-    -webkit-box-sizing:             border-box;
-            box-sizing:             border-box;
-    -webkit-tap-highlight-color:    transparent;
-    pointer-events:                 auto;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transform-origin: center center;
+  transform-origin: center center;
+  -webkit-transform-style: flat;
+  transform-style: flat;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  position: absolute;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
 }
-
 .interactive {
-    pointer-events:                 auto;
+  pointer-events: auto;
 }
-
 .content .doubleSided {
-    -webkit-backface-visibility:    visible;
-            backface-visibility:    visible;
+  -webkit-backface-visibility: visible;
+  backface-visibility: visible;
 }
