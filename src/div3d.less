@@ -1,0 +1,80 @@
+.backface-visibility(@a:hidden) {
+    -webkit-backface-visibility: @a;
+            backface-visibility: @a;
+}
+
+.box-sizing(@a:border-box) {
+    -webkit-box-sizing: @a;
+            box-sizing: @a;
+}
+
+.perspective(@a:0) {
+    -webkit-perspective: @a;
+            perspective: @a;
+}
+
+.transform-origin(@a:center, @b:center) {
+    -webkit-transform-origin: @a @b;
+            transform-origin: @a @b;
+}
+
+.transform-style(@a:preserve-3d) {
+    -webkit-transform-style: @a;
+            transform-style: @a;
+}
+
+
+
+html, body {
+    margin:             0;
+    padding:            0;
+    width:              100%;
+    height:             100%;
+    overflow:           hidden;
+    background-color:   #000;
+}
+
+body {
+    .transform-style(flat);
+    .perspective;
+    font-family:                    sans-serif;
+    -webkit-font-smoothing:         antialiased;
+    -webkit-tap-highlight-color:    transparent;
+    -webkit-transform:              translateZ(-999999px);  // WHY?
+}
+
+.container {
+    .transform-style;
+    .backface-visibility;
+    position:                       absolute;
+    width:                          100%;
+    height:                         100%;
+    margin:                         0;
+    padding:                        0;
+    pointer-events:                 none;
+}
+
+.node {
+    .transform-origin;
+    .transform-style;
+    .backface-visibility;
+    position:                       absolute;
+}
+
+.surface {
+    .box-sizing;
+    .transform-origin;
+    .transform-style(flat);
+    .backface-visibility;
+    position:                       absolute;
+    -webkit-tap-highlight-color:    transparent;
+    pointer-events:                 auto;
+}
+
+.interactive {
+    pointer-events:                 auto;
+}
+
+.content .doubleSided {
+    .backface-visibility(visible);
+}
