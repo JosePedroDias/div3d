@@ -6,6 +6,13 @@ all: checkCommands      min minBundle debugBundle css docs
 .PHONY: docs
 
 
+updateAux:
+	#@wget https://raw.github.com/toji/gl-matrix/master/dist/gl-matrix.js
+	@curl -O https://raw.github.com/toji/gl-matrix/master/dist/gl-matrix.js
+	@mv gl-matrix.js aux
+	@cat aux/gl-matrix-patch.js >> aux/gl-matrix.js
+
+
 checkCommands:
 ifeq ($(shell which lessc),)
 	$(error lessc not found! Do: sudo npm install -g less)

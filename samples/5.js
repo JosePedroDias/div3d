@@ -50,7 +50,7 @@ for (z = 0; z < 3; ++z) {
                 side * (z - 1)
             ]);
             q.update();
-            q.m2 = q.getCloneMatrix();
+            q.m2 = q.clone();
         }
     }
 }
@@ -65,10 +65,10 @@ var render = function(t) {
     var dt = D.time(t);
 
     // rotate whole cube at once
-	/*var o = rubik;
+	var o = rubik;
     o.clear();
     o.rotate(a, [0, 1, 0], a);
-    o.update();*/
+    o.update();
 
     // rotate a piece
     /*var x = 0, y = 1, z = 2;
@@ -83,7 +83,7 @@ var render = function(t) {
     o.update();*/
 
     // rotate several pieces individually
-    var x, y, z, o;
+    /*var x, y, z, o;
     for (z = 0; z < 3; ++z) {
         for (y = 0; y < 3; ++y) {
             for (x = 0; x < 3; ++x) {
@@ -95,7 +95,7 @@ var render = function(t) {
                 o.update();
             }
         }
-    }
+    }*/
 
 	a += vA * dt * 0.001;
 

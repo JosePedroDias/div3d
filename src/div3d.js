@@ -54,7 +54,7 @@
      */
     var D3D = function(el, mtx) {
         if (!mtx) {
-            mtx = mat4.create();
+            mtx = mat4.create(1);
             mat4.identity(mtx);
         }
         this.element = el;
@@ -160,7 +160,7 @@
          */
         translate: function(vec) {
             /*dbg assertVecN(vec, 3, '1st argument must be a Number[3]');*/
-            mat4.translate(this.matrix, vec, this.matrix);
+            mat4.translate(this.matrix, this.matrix, vec);
         },
 
         /**
@@ -173,7 +173,7 @@
         rotate: function(angle, axis) {
             /*dbg assertNumber(angle, '1st argument must be a Number');*/
             /*dbg assertVecN(axis, 3, '2nd argument must be a Number[3]');*/
-            mat4.rotate(this.matrix, angle, axis, this.matrix);
+            mat4.rotate(this.matrix, this.matrix, angle, axis);
         },
 
         /**
@@ -187,11 +187,11 @@
                 s = [s, s, s];
             }
             /*dbg assertVecN(s, 3, '1st argument must be a Number or Number[3]');*/
-            mat4.scale(this.matrix, s, this.matrix);
+            mat4.scale(this.matrix, this.matrix, s);
         },
 
-        getCloneMatrix: function() {
-            return mat4.create(this.matrix);
+        clone: function() {
+            return mat4.clone(this.matrix);
         },
 
         /**
