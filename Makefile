@@ -1,5 +1,6 @@
 
-all: checkCommands lint min minBundle debugBundle css docs
+#all: checkCommands lint min minBundle debugBundle css docs
+all: checkCommands      min minBundle debugBundle css docs
 
 
 .PHONY: docs

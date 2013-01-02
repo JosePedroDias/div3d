@@ -1,3 +1,4 @@
+/*jshint debug:true */
 /*global DIV3D:true */
 
 /**
@@ -77,13 +78,46 @@
          * @method resize
          * @param {Number[2]}  dims   is an array of integers (width and height)
          */
-        resize: function(dims) {
+        resize: function(dims, center) {
+            /*dbg
+            assertVecN(dims, 2, '1st argument must be a vector of 2 numbers');
+            if (center !== undefined) {
+                assertVecN(center, 2, '2nd argument must be a vector of 2 numbers/percentages');
+            }
+            */
+
+
+            this.size = dims;
+            var cir = [false, false];   // centerIsRatio
+            var i, d, ci;
+
+            if (!center) {
+                center = [0.5, 0.5];
+                cir = [true, true];
+            }
+            else {
+                for (i = 0; i < 2; ++i) {
+                    ci = center[i];
+                    if (typeof ci === 'string' && ci.indexOf('%') !== -1) {
+                        ci = parseFloat(ci) * 0.01;
+                        cir[i] = true;
+                    }
+                }
+            }
+
+            for (i = 0; i < 2; ++i) {
+                ci = center[i];
+                d = dims[i];
+
+                center[i] = Math.round( -d + ci * (cir[i] ? d : 1) );
+            }
+
             var el = this.element;
             var s = el.style;
-            s.width      =     dims[0]    + 'px';
-            s.height     =     dims[1]    + 'px';
-            s.marginLeft = ~~(-dims[0]/2) + 'px';
-            s.marginTop  = ~~(-dims[1]/2) + 'px';
+            s.width      =   dims[0] + 'px';
+            s.height     =   dims[1] + 'px';
+            s.marginLeft = center[0] + 'px';
+            s.marginTop  = center[1] + 'px';
         },
 
         /**
@@ -138,7 +172,7 @@
          */
         rotate: function(angle, axis) {
             /*dbg assertNumber(angle, '1st argument must be a Number');*/
-            /*dbg assertVecN(vec, 3, '2nd argument must be a Number[3]');*/
+            /*dbg assertVecN(axis, 3, '2nd argument must be a Number[3]');*/
             mat4.rotate(this.matrix, angle, axis, this.matrix);
         },
 
@@ -154,6 +188,10 @@
             }
             /*dbg assertVecN(s, 3, '1st argument must be a Number or Number[3]');*/
             mat4.scale(this.matrix, s, this.matrix);
+        },
+
+        getCloneMatrix: function() {
+            return mat4.create(this.matrix);
         },
 
         /**
@@ -175,7 +213,18 @@
          */
         color: function(c) {
             this.element.style.backgroundColor = c;
-        }//,
+        },
+
+        centerText: function() {
+            var s = this.element.style;
+            s.textAlign = 'center';
+            s.lineHeight = this.size[1] + 'px';
+        },
+
+        round: function() {
+            var s = this.element.style;
+            s.borderRadius = '50%';
+        }
 
         // TODO
         //image: function(uri, origin, dims) {
@@ -311,6 +360,8 @@
             var dims, f, g = this.createDiv(opts.id, opts.parentEl);
             var a, b;
 
+            g.faces = new Array(6);
+
             for (var i = 0; i < 6; ++i) {
                 if (opts.skips && opts.skips.indexOf(i) !== -1) { continue; }
                 f = this.createDiv(undefined, g.element);
@@ -341,7 +392,11 @@
                 }
 
                 f.update();
+
+                g.faces[i] = f;
             }
+
+            return g;
         },
 
         // TODO

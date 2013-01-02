@@ -1,0 +1,24 @@
+.container {
+    -webkit-perspective:            450px;
+            perspective:            450px;
+}
+
+.blk {
+    background-color:   #222;
+}
+
+.c {
+  border-radius:        4px;
+  position:             absolute;
+  left:                 3px;
+  right:                3px;
+  top:                  3px;
+  bottom:               3px;
+}
+
+.w { background-color: #FFF; }
+.r { background-color: #F00; }
+.g { background-color: #0A0; }
+.b { background-color: #22D; }
+.y { background-color: #FF0; }
+.o { background-color: #F70; }

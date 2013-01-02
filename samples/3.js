@@ -13,11 +13,14 @@ D.createBox({
     skips:       [],
     invert:      true,
     id:         'cube',
-    dimensions: [96, 128, 128],
+    dimensions: [96, 96, 96],
     forEach: function(o, i) {
         o.addClass('face');
         o.addClass('f' + (i+1));
         o.element.innerHTML = A[i];
+        o.centerText();
+        o.round();
+        o.resize([96, 96], ['50%', '0%']);
     }
 });
 
