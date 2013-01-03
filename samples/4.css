@@ -1,0 +1,12 @@
+.container {
+    -webkit-perspective:            600px;
+            perspective:            600px;
+}
+
+#field {
+    background-image: url(football-field.png);
+}
+
+#player {
+    background-image: url(football-jersey.png);
+}
