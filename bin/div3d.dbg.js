@@ -1,3 +1,4 @@
+/*jshint debug:true */
 /*global DIV3D:true */
 
 /**
@@ -53,7 +54,7 @@
      */
     var D3D = function(el, mtx) {
         if (!mtx) {
-            mtx = mat4.create();
+            mtx = mat4.create(1);
             mat4.identity(mtx);
         }
         this.element = el;
@@ -68,7 +69,12 @@
          * @method update
          */
         update: function() {
-            this.element.style.webkitTransform = ['matrix3d(', mat4.str(this.matrix), ')'].join('');
+            var m = ['matrix3d(', mat4.str(this.matrix), ')'].join('');
+            //var m = ['translate3d(-50%, -50%, 0) matrix3d(', mat4.str(this.matrix), ')'].join('');
+            this.element.style.WebkitTransform = m;
+            this.element.style.MozTransform    = m;
+            this.element.style.oTransform      = m;
+            this.element.style.transform       = m;
         },
 
         /**
@@ -77,13 +83,46 @@
          * @method resize
          * @param {Number[2]}  dims   is an array of integers (width and height)
          */
-        resize: function(dims) {
+        resize: function(dims, center) {
+            {
+            assertVecN(dims, 2, '1st argument must be a vector of 2 numbers');
+            if (center !== undefined) {
+                assertVecN(center, 2, '2nd argument must be a vector of 2 numbers/percentages');
+            }
+            }
+
+
+            this.size = dims;
+            var cir = [false, false];   // centerIsRatio
+            var i, d, ci;
+
+            if (!center) {
+                center = [0.5, 0.5];
+                cir = [true, true];
+            }
+            else {
+                for (i = 0; i < 2; ++i) {
+                    ci = center[i];
+                    if (typeof ci === 'string' && ci.indexOf('%') !== -1) {
+                        ci = parseFloat(ci) * 0.01;
+                        cir[i] = true;
+                    }
+                }
+            }
+
+            for (i = 0; i < 2; ++i) {
+                ci = center[i];
+                d = dims[i];
+
+                center[i] = Math.round( -d + ci * (cir[i] ? d : 1) );
+            }
+
             var el = this.element;
             var s = el.style;
-            s.width      =     dims[0]    + 'px';
-            s.height     =     dims[1]    + 'px';
-            s.marginLeft = ~~(-dims[0]/2) + 'px';
-            s.marginTop  = ~~(-dims[1]/2) + 'px';
+            s.width      =   dims[0] + 'px';
+            s.height     =   dims[1] + 'px';
+            s.marginLeft = center[0] + 'px';
+            s.marginTop  = center[1] + 'px';
         },
 
         /**
@@ -126,7 +165,7 @@
          */
         translate: function(vec) {
             {assertVecN(vec, 3, '1st argument must be a Number[3]');}
-            mat4.translate(this.matrix, vec, this.matrix);
+            mat4.translate(this.matrix, this.matrix, vec);
         },
 
         /**
@@ -138,8 +177,8 @@
          */
         rotate: function(angle, axis) {
             {assertNumber(angle, '1st argument must be a Number');}
-            {assertVecN(vec, 3, '2nd argument must be a Number[3]');}
-            mat4.rotate(this.matrix, angle, axis, this.matrix);
+            {assertVecN(axis, 3, '2nd argument must be a Number[3]');}
+            mat4.rotate(this.matrix, this.matrix, angle, axis);
         },
 
         /**
@@ -153,7 +192,31 @@
                 s = [s, s, s];
             }
             {assertVecN(s, 3, '1st argument must be a Number or Number[3]');}
-            mat4.scale(this.matrix, s, this.matrix);
+            mat4.scale(this.matrix, this.matrix, s);
+        },
+
+        /**
+         * sets matrix as a look at
+         *
+         * @method lookAt
+         * @param {Number[3]}            from  origin vector. location of the camera
+         * @param {Number[3]|undefined}  to    target vector. defaults to [0, 0, 0]
+         * @param {Number[3]|undefined}  up    up vector.     defaults to [0, 1, 0]
+         */
+        lookAt: function(from, to, up) {
+            if (!to) { to = [0, 0, 0]; }
+            if (!up) { up = [0, 1, 0]; }
+            mat4.lookAt(this.matrix, from, to, up);
+        },
+
+        /**
+         * returns a clone of the matrix
+         *
+         * @method clone
+         * @returns {mat4}
+         */
+        clone: function() {
+            return mat4.clone(this.matrix);
         },
 
         /**
@@ -175,12 +238,37 @@
          */
         color: function(c) {
             this.element.style.backgroundColor = c;
-        }//,
+        },
+
+        /**
+         * centers one line of text in the div
+         *
+         * @method centerText
+         */
+        centerText: function() {
+            var s = this.element.style;
+            s.textAlign = 'center';
+            s.lineHeight = this.size[1] + 'px';
+        },
+
+        // TODO
+        sprite: function() {
+            // http://swiftcoder.wordpress.com/2008/11/25/constructing-a-billboard-matrix/
+
+            /*_tmpMatrix.copy( camera.matrixWorldInverse );
+            _tmpMatrix.transpose();
+            _tmpMatrix.extractPosition( object.matrixWorld );
+            _tmpMatrix.scale( object.scale );
+
+            _tmpMatrix.elements[ 3 ] = 0;
+            _tmpMatrix.elements[ 7 ] = 0;
+            _tmpMatrix.elements[ 11 ] = 0;
+            _tmpMatrix.elements[ 15 ] = 1;*/
+        }
 
         // TODO
         //image: function(uri, origin, dims) {
         //}
-
     };
 
 
@@ -311,6 +399,8 @@
             var dims, f, g = this.createDiv(opts.id, opts.parentEl);
             var a, b;
 
+            g.faces = new Array(6);
+
             for (var i = 0; i < 6; ++i) {
                 if (opts.skips && opts.skips.indexOf(i) !== -1) { continue; }
                 f = this.createDiv(undefined, g.element);
@@ -341,7 +431,11 @@
                 }
 
                 f.update();
+
+                g.faces[i] = f;
             }
+
+            return g;
         },
 
         // TODO
