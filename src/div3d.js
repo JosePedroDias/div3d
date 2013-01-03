@@ -38,7 +38,6 @@
     ];
 
 
-
     /**
      * The D3D class exposes an API to manipulate div3d quads (divs).
      * This constructor isn't expected to be called by the end client.
@@ -251,24 +250,61 @@
             s.lineHeight = this.size[1] + 'px';
         },
 
-        // TODO
-        sprite: function() {
+        billboard: function(pos) {
             // http://swiftcoder.wordpress.com/2008/11/25/constructing-a-billboard-matrix/
 
-            /*_tmpMatrix.copy( camera.matrixWorldInverse );
-            _tmpMatrix.transpose();
-            _tmpMatrix.extractPosition( object.matrixWorld );
-            _tmpMatrix.scale( object.scale );
+            mat4.copy(this.matrix, DIV3D.get('origin').matrix);
+            mat4.transpose(this.matrix, this.matrix);
 
-            _tmpMatrix.elements[ 3 ] = 0;
-            _tmpMatrix.elements[ 7 ] = 0;
-            _tmpMatrix.elements[ 11 ] = 0;
-            _tmpMatrix.elements[ 15 ] = 1;*/
+            this.matrix[12] = pos[0];
+            this.matrix[13] = pos[1];
+            this.matrix[14] = pos[2];
+
+            //_tmpMatrix.scale( object.scale );
+
+            this.matrix[ 3] = 0;
+            this.matrix[ 7] = 0;
+            this.matrix[11] = 0;
+            this.matrix[15] = 1;
+
+            this.update();
+        },
+
+        billboardAxisAligned: function(pos, camPos, axisNum) {
+            // http://nehe.gamedev.net/article/billboarding_how_to/18011/
+
+            var look = vec3.create();
+            vec3.sub(look, camPos, pos); // create the look vector: pos -> camPos
+
+            look[axisNum] = 0; // we are billboarding along the X axis - zero the look value for x
+            vec3.normalize(look, look);
+
+            var up = vec3.create();
+            up[axisNum] = 1;
+
+            var right = vec3.create(); // right hand rule cross products - the up vector is the +x Axis
+            vec3.cross(right, up, look);
+
+            var m = this.matrix;
+            m[ 0] = right[0];
+            m[ 1] = right[1];
+            m[ 2] = right[2];
+            m[ 3] = 0;
+            m[ 4] = up[0];
+            m[ 5] = up[1];
+            m[ 6] = up[2];
+            m[ 7] = 0;
+            m[ 8] = look[0];
+            m[ 9] = look[1];
+            m[10] = look[2];
+            m[11] = 0;
+            m[12] = pos[0];
+            m[13] = pos[1];
+            m[14] = pos[2];
+            m[15] = 1;
+
+            this.update();
         }
-
-        // TODO
-        //image: function(uri, origin, dims) {
-        //}
     };
 
 
