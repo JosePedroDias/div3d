@@ -12,7 +12,7 @@ D.init();
 
 
 
-var o, m, i;
+var o, i;
 
 var sz = [256, 256];
 
@@ -22,10 +22,9 @@ for (i = 1; i <=4; ++i) {
     o = D.createDiv('f' + i, '#cube');
     o.resize(sz);
     o.element.innerHTML = i;
-
-    m = o.matrix;
-    mat4.rotate(m, -a90*i, [1, 0, 0], m);
-    mat4.translate(m, [0, 0, 128], m);
+    o.clear();
+    o.rotate(-a90*i, [1, 0, 0]);
+    o.translate([0, 0, 128]);
     o.update();
 }
 
@@ -39,12 +38,11 @@ var vA = a45;  // angle change per second
 var render = function(t) {
     var dt = D.time(t);
 
-	var o, m;
+	var o;
     o = D.get('cube');
-    m = o.matrix;
-    mat4.identity(m);
-    mat4.translate(m, [0, 0, -50], m);
-    mat4.rotate(m, a, [1, 0, 0], m);
+    o.clear();
+    o.translate([0, 0, -50]);
+    o.rotate(a, [1, 0, 0]);
     o.update();
 
 	a += vA * dt * 0.001;

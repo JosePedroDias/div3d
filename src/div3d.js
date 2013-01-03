@@ -69,7 +69,12 @@
          * @method update
          */
         update: function() {
-            this.element.style.webkitTransform = ['matrix3d(', mat4.str(this.matrix), ')'].join('');
+            var m = ['matrix3d(', mat4.str(this.matrix), ')'].join('');
+            //var m = ['translate3d(-50%, -50%, 0) matrix3d(', mat4.str(this.matrix), ')'].join('');
+            this.element.style.WebkitTransform = m;
+            this.element.style.MozTransform    = m;
+            this.element.style.oTransform      = m;
+            this.element.style.transform       = m;
         },
 
         /**
@@ -190,6 +195,26 @@
             mat4.scale(this.matrix, this.matrix, s);
         },
 
+        /**
+         * sets matrix as a look at
+         *
+         * @method lookAt
+         * @param {Number[3]}            from  origin vector. location of the camera
+         * @param {Number[3]|undefined}  to    target vector. defaults to [0, 0, 0]
+         * @param {Number[3]|undefined}  up    up vector.     defaults to [0, 1, 0]
+         */
+        lookAt: function(from, to, up) {
+            if (!to) { to = [0, 0, 0]; }
+            if (!up) { up = [0, 1, 0]; }
+            mat4.lookAt(this.matrix, from, to, up);
+        },
+
+        /**
+         * returns a clone of the matrix
+         *
+         * @method clone
+         * @returns {mat4}
+         */
         clone: function() {
             return mat4.clone(this.matrix);
         },
@@ -215,21 +240,35 @@
             this.element.style.backgroundColor = c;
         },
 
+        /**
+         * centers one line of text in the div
+         *
+         * @method centerText
+         */
         centerText: function() {
             var s = this.element.style;
             s.textAlign = 'center';
             s.lineHeight = this.size[1] + 'px';
         },
 
-        round: function() {
-            var s = this.element.style;
-            s.borderRadius = '50%';
+        // TODO
+        sprite: function() {
+            // http://swiftcoder.wordpress.com/2008/11/25/constructing-a-billboard-matrix/
+
+            /*_tmpMatrix.copy( camera.matrixWorldInverse );
+            _tmpMatrix.transpose();
+            _tmpMatrix.extractPosition( object.matrixWorld );
+            _tmpMatrix.scale( object.scale );
+
+            _tmpMatrix.elements[ 3 ] = 0;
+            _tmpMatrix.elements[ 7 ] = 0;
+            _tmpMatrix.elements[ 11 ] = 0;
+            _tmpMatrix.elements[ 15 ] = 1;*/
         }
 
         // TODO
         //image: function(uri, origin, dims) {
         //}
-
     };
 
 

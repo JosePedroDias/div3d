@@ -9,18 +9,25 @@ body {
 }
 body {
   -webkit-transform-style: flat;
+  -moz-transform-style: flat;
+  -o-transform-style: flat;
   transform-style: flat;
   -webkit-perspective: 0;
+  -moz-perspective: 0;
+  -o-perspective: 0;
   perspective: 0;
   font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
-  -webkit-transform: translateZ(-999999px);
 }
 .container {
   -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
   transform-style: preserve-3d;
   -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
   backface-visibility: hidden;
   position: absolute;
   width: 100%;
@@ -31,30 +38,37 @@ body {
 }
 .node {
   -webkit-transform-origin: center center;
+  -moz-transform-origin: center center;
+  -o-transform-origin: center center;
   transform-origin: center center;
   -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
   transform-style: preserve-3d;
   -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
   backface-visibility: hidden;
   position: absolute;
 }
-.surface {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-transform-origin: center center;
-  transform-origin: center center;
-  -webkit-transform-style: flat;
-  transform-style: flat;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  position: absolute;
-  -webkit-tap-highlight-color: transparent;
-  pointer-events: auto;
-}
+/*.surface {
+    .box-sizing;
+    .transform-origin;
+    .transform-style(flat);
+    .backface-visibility;
+    position:                       absolute;
+    -webkit-tap-highlight-color:    transparent;
+    pointer-events:                 auto;
+}*/
 .interactive {
   pointer-events: auto;
 }
-.content .doubleSided {
+.doubleSided {
   -webkit-backface-visibility: visible;
+  -moz-backface-visibility: visible;
+  -o-backface-visibility: visible;
   backface-visibility: visible;
+}
+.round {
+  border-radius: 50%;
 }

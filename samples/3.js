@@ -17,9 +17,9 @@ D.createBox({
     forEach: function(o, i) {
         o.addClass('face');
         o.addClass('f' + (i+1));
+        o.addClass('round');
         o.element.innerHTML = A[i];
         o.centerText();
-        o.round();
         o.resize([96, 96], ['50%', '0%']);
     }
 });

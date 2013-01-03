@@ -1,6 +1,6 @@
 .container {
-    -webkit-perspective:            450px;
-            perspective:            450px;
+    -webkit-perspective:            600px;
+            perspective:            600px;
 }
 
 #field {

@@ -8,6 +8,8 @@ var D = DIV3D;
 D.init();
 
 var rubik = D.createDiv('rubik');
+rubik.lookAt([-40, -40, -100]);//, [0, 100, 0], [0, 1, 0]);
+rubik.update();
 
 var x, y, z, q;
 
@@ -37,7 +39,7 @@ for (z = 0; z < 3; ++z) {
             q = D.createBox({
                 id:         ['q', x, y, z].join('_'),
                 parentEl:   rubik.element,
-                //parentEl:   'rubik',// TODO FAILS
+                //parentEl:   '#rubik',
                 skips:      sk(x, y, z),
                 dimensions: dims,
                 forEach:    fe
@@ -64,11 +66,20 @@ var vA = Math.PI/4;
 var render = function(t) {
     var dt = D.time(t);
 
+    // setup dynamic point of view
+    /*var o = rubik;
+    o.lookAt([
+        100 * Math.cos(a),
+        0,
+        100 * Math.sin(a)
+    ]);
+    o.update();*/
+
     // rotate whole cube at once
-	var o = rubik;
+	/*var o = rubik;
     o.clear();
     o.rotate(a, [0, 1, 0], a);
-    o.update();
+    o.update();*/
 
     // rotate a piece
     /*var x = 0, y = 1, z = 2;
@@ -83,7 +94,7 @@ var render = function(t) {
     o.update();*/
 
     // rotate several pieces individually
-    /*var x, y, z, o;
+    var x, y, z, o;
     for (z = 0; z < 3; ++z) {
         for (y = 0; y < 3; ++y) {
             for (x = 0; x < 3; ++x) {
@@ -91,11 +102,11 @@ var render = function(t) {
                 if (!o || y !== 0) { continue; } // y === 0
                 o.clear();
                 o.rotate(a, [0, 1, 0]);
-                mat4.multiply(o.matrix, o.m2, o.matrix);
+                mat4.multiply(o.matrix, o.matrix, o.m2);
                 o.update();
             }
         }
-    }*/
+    }
 
 	a += vA * dt * 0.001;
 
