@@ -1,6 +1,7 @@
 {
     "globals": {
-        "mat4":      false
+        "mat4":      false,
+        "vec3":      false
     },
     "boss" :         false,
     "browser":       true,

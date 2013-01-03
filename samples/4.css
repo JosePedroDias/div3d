@@ -7,6 +7,6 @@
     background-image: url(football-field.png);
 }
 
-#player {
+.player {
     background-image: url(football-jersey.png);
 }
