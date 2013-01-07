@@ -4,9 +4,10 @@
 }
 
 #field {
-    background-image: url(football-field.png);
+    background-image: url(resources/football-field.png);
+    background-color: #050;
 }
 
 .player {
-    background-image: url(football-jersey.png);
+    background-image: url(resources/football-jersey.png);
 }

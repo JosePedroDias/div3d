@@ -15,5 +15,20 @@
 
     <body>
         <script type="text/javascript" src="5.js"></script>
+
+        <div id="modes">
+            <button>0</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+        </div>
+
+        <script type="text/javascript">
+            var modesEl = document.querySelector('#modes');
+            modesEl.addEventListener('click', function(ev) {
+                var tgtEl = ev.target;
+                mode  = parseInt(tgtEl.innerHTML, 10);
+            });
+        </script>
     </body>
 </html>
