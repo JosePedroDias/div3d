@@ -1,77 +1,56 @@
-/*global DIV3D:false, requestAnimationFrame:false */
+/*global DIV3D:false */
 
 var D = DIV3D;
 D.init();
 
+D.setCamera({
+    from: [50, 30, 140]
+});
+
 var o;
 
+D.createGroup('axes');
 
-
-var o = D.createDiv('origin');
-o.lookAt([50, 30, 140]);
-o.update();
-
-
-
-D.createDiv('axes', 'origin');
-
-
-
-o = D.createDiv('ax', 'axes');
+o = D._createDiv('ax', 'axes');
 o.resize([256, 4], [1, 0.5]);
 o.addClass('doubleSided');
 
-o = D.createDiv('lx', 'axes');
+o = D._createDiv('lx', 'axes');
 o.resize([32, 32]);
 o.addClass('doubleSided');
-o.element.innerHTML = 'X';
+o.markup('X');
 
-
-
-o = D.createDiv('ay', 'axes');
+o = D._createDiv('ay', 'axes');
 o.resize([4, 256], [0.5, 0]);
 o.addClass('doubleSided');
 
-o = D.createDiv('ly', 'axes');
+o = D._createDiv('ly', 'axes');
 o.resize([32, 32]);
 o.addClass('doubleSided');
-o.element.innerHTML = 'Y';
+o.markup('Y');
 
-
-
-o = D.createDiv('az', 'axes');
+o = D._createDiv('az', 'axes');
 o.resize([256, 4], [1, 0.5]);
 o.addClass('doubleSided');
 o.rotate(Math.PI/2, [0, 1, 0]);
-o.update();
 
-o = D.createDiv('lz', 'axes');
+o = D._createDiv('lz', 'axes');
 o.resize([32, 32]);
 o.addClass('doubleSided');
-o.element.innerHTML = 'Z';
-
-
+o.markup('Z');
 
 var a = 0;
 var vA = Math.PI/4;
 
-
-
-var render = function(t) {
-    var dt = D.time(t);
-
-    o = D.get('lx');
+D.onFrame(function(t, dt) {
+    /*o = D.get('lx');
     o.billboard([256, 0, 0]);
 
     o = D.get('ly');
     o.billboard([0, -256, 0]);
 
     o = D.get('lz');
-    o.billboard([0, 0, 256]);
+    o.billboard([0, 0, 256]);*/
 
 	a += vA * dt * 0.001;
-
-	requestAnimationFrame(render);
-};
-
-render();
+});

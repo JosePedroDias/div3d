@@ -18,11 +18,6 @@
      var assertVecN = function(v, n, m) { if ((!v instanceof Array) || (v.length !== n)) { throw m || 'must be array of size '+n+' ('+v+')'; } };
      */
 
-    // utility method to resolve CSS selectors
-    var $ = function(a) {
-        return (typeof a === 'string') ? document.querySelector(a) : a;
-    };
-
     // 90 degrees in radians
     var rad90  = Math.PI / 2;
     var rad180 = Math.PI;
@@ -39,19 +34,16 @@
 
 
     /**
-     * The D3D class exposes an API to manipulate div3d quads (divs).
-     * This constructor isn't expected to be called by the end client.
-     * Use DIV3D.createDiv() and DIV3D.importDiv() instead.
+     * The DQuad class exposes an API to manipulate div3d quads (divs).
      *
-     * @class D3D
+     * This constructor isn't expected to be called by the end client but via DIV3D's create* methods.
+     *
+     * @class DQuad
      * @constructor
      * @param {DomElement}  el   the DOM element to assign to the object
      * @param {mat4}        mtx  the transformation matrix to assign to the object
-     *
-     * @see DIV3D.createDiv
-     * @see DIV3D.importDiv
      */
-    var D3D = function(el, mtx) {
+    var DQuad = function(el, mtx) {
         if (!mtx) {
             mtx = mat4.create(1);
             mat4.identity(mtx);
@@ -61,19 +53,45 @@
         this._trans = {}; // t, r, s
     };
 
-    D3D.prototype = {
+    DQuad.prototype = {
 
+        /**
+         * saves a translation transform for application in the object.
+         *
+         * @method translate
+         * @param {Number[3]}  pos  is a 3 numbers array (dx, dy, dz)
+         */
         translate: function(pos) {
+            /*dbg assertVecN(pos, 3, '1st argument must be a Number[3]');*/
+
             this._trans.t = pos;
             DIV3D._needUpdate[ this._id ] = true;
         },
 
+        /**
+         * saves a rotation transform for application in the object.
+         *
+         * @method rotate
+         * @param {Number}     angle  the angle to rotate around the axis, in radians
+         * @param {Number[3]}  axis   is a 3D versor, that is, a 3 dimensions vector with norm 1
+         */
         rotate: function(angle, axis) {
+            /*dbg assertNumber(angle, '1st argument must be a Number');*/
+            /*dbg assertVecN(axis, 3, '2nd argument must be a Number[3]');*/
+
             this._trans.r = [angle, axis];
             DIV3D._needUpdate[ this._id ] = true;
         },
 
+        /**
+         * saves a scaling transform for application in the object.
+         *
+         * @method _s
+         * @param {Number|Number[3]}  s  can either be a number (for proportional scale) or a 3 dimensions vector
+         */
         scale: function(s) {
+            /*dbg assertVecN(s, 3, '1st argument must be a Number or Number[3]');*/
+
             this._trans.s = s;
             DIV3D._needUpdate[ this._id ] = true;
         },
@@ -82,7 +100,8 @@
          * sets the div dimensions. the divs keeps centered over its pivot point.
          *
          * @method resize
-         * @param {Number[2]}  dims   is an array of integers (width and height)
+         * @param {Number[2]}            dims    an array of integers (width and height)
+         * @param {Number[2]|undefined}  center  pivot location, specified in ratios of respective lengths
          */
         resize: function(dims, center) {
             /*dbg
@@ -91,7 +110,6 @@
                 assertVecN(center, 2, '2nd argument must be a vector of 2 numbers');
             }
             */
-
 
             this._size = dims;
             var cir = [false, false];   // centerIsRatio
@@ -125,10 +143,10 @@
         },
 
         /**
-         * adds a CSS class to the object's element.
+         * adds a CSS class / several classes to the object's DOM element.
          *
          * @method addClass
-         * @param {String} clsName
+         * @param {String}  clsName  supports several classes separated by spaces
          */
         addClass: function(clsName) {
             /*dbg assertString(clsName, '1st argument must be a string');*/
@@ -142,28 +160,26 @@
                     this._el.classList.add( classes[i] );
                 }
             }
-
         },
 
         /**
-         * removes a CSS class from the object's element.
+         * removes a CSS class / several classes from the object's DOM element.
          *
          * @method removeClass
-         * @param {String} clsName
+         * @param {String}  clsName  supports several classes separated by spaces
          */
         removeClass: function(clsName) {
             /*dbg assertString(clsName, '1st argument must be a string');*/
-            this._el.classList.remove(clsName);
-        },
 
-        /**
-         * returns a clone of the matrix
-         *
-         * @method clone
-         * @returns {mat4}
-         */
-        clone: function() {
-            return mat4.clone(this._mtx);
+            if (clsName.indexOf(' ') === -1) {
+                this._el.classList.remove(clsName);
+            }
+            else {
+                var classes = clsName.split(' ');
+                for (var i = 0, f = classes.length; i < f; ++i) {
+                    this._el.classList.remove( classes[i] );
+                }
+            }
         },
 
         /**
@@ -181,18 +197,23 @@
          * sets the object's color.
          *
          * @method color
-         * @param {String}  c   can be any supported CSS color
+         * @param {String}  c  can be any supported CSS color
          */
         color: function(c) {
             this._el.style.backgroundColor = c;
         },
 
+        /**
+         * sets the DOM element's inner HTML from the given markup.
+         *
+         * @param  {String}  html  markup to set
+         */
         markup: function(html) {
             this._el.innerHTML = html;
         },
 
         /**
-         * centers one line of text in the div
+         * centers one line of text in the div.
          *
          * @method centerText
          */
@@ -205,8 +226,9 @@
 
 
         /**
-         * call this method once you're done with updating transformations.
+         * call this method once you're done with updating transformations to apply the matrix to the DOM element via transform: matrix3d()
          *
+         * @private
          * @method _update
          */
         _update: function() {
@@ -221,6 +243,7 @@
          * clears transformation matrix (sets it to the identity matrix).
          * use this prior to assigning a new set of matrices to transform an object.
          *
+         * @private
          * @method _clear
          */
         _clear: function() {
@@ -228,32 +251,32 @@
         },
 
         /**
-         * translates to object.
+         * immediate translation of the object's internal matrix.
          *
+         * @private
          * @method _t
          * @param {Number[3]}  vec  is a 3 numbers array (dx, dy, dz)
          */
         _t: function(vec) {
-            /*dbg assertVecN(vec, 3, '1st argument must be a Number[3]');*/
             mat4.translate(this._mtx, this._mtx, vec);
         },
 
         /**
-         * rotates the object.
+         * immediate rotation of the object's internal matrix.
          *
+         * @private
          * @method _r
          * @param {Number}     angle  the angle to rotate around the axis, in radians
          * @param {Number[3]}  axis   is a 3D versor, that is, a 3 dimensions vector with norm 1
          */
         _r: function(angle, axis) {
-            /*dbg assertNumber(angle, '1st argument must be a Number');*/
-            /*dbg assertVecN(axis, 3, '2nd argument must be a Number[3]');*/
             mat4.rotate(this._mtx, this._mtx, angle, axis);
         },
 
         /**
-         * scales the object.
+         * immediate scaling of the object's internal matrix.
          *
+         * @private
          * @method _s
          * @param {Number|Number[3]}  s  can either be a number (for proportional scale) or a 3 dimensions vector
          */
@@ -261,10 +284,27 @@
             if (typeof s === 'number') {
                 s = [s, s, s];
             }
-            /*dbg assertVecN(s, 3, '1st argument must be a Number or Number[3]');*/
             mat4.scale(this._mtx, this._mtx, s);
         },
 
+        /**
+         * returns a clone of the internal matrix.
+         *
+         * @private
+         * @method clone
+         * @returns {mat4}
+         */
+        _mtxClone: function() {
+            return mat4.clone(this._mtx);
+        },
+
+        /**
+         * implements the billboard behavior. TODO
+         *
+         * @private
+         * @method _billboard
+         * @param  {Number[3]}  pos  position
+         */
         _billboard: function(pos) {
             // http://swiftcoder.wordpress.com/2008/11/25/constructing-a-billboard-matrix/
 
@@ -288,9 +328,19 @@
             this._update();
         },
 
-        _billboardAxisAligned: function(pos, camPos, axisNum) {
+        /**
+         * implements the axis-aligned billboard behavior. TODO
+         *
+         * @private
+         * @method _billboardAxisAligned
+         * @param  {Number[3]}  pos      position
+         * @param  {Number}     axisNum  0 for X, 1 for Y, 2 for Z
+         */
+        _billboardAxisAligned: function(pos, axisNum) {
             // http://nehe.gamedev.net/article/billboarding_how_to/18011/
             // http://www.lighthouse3d.com/opengl/billboarding/index.php?billCyl
+
+            var camPos = this._camera._from;
 
             var look = vec3.create();
             vec3.sub(look, camPos, pos); // create the look vector: pos -> camPos
@@ -345,7 +395,7 @@
         _animationFn:     [],
 
         /**
-         * should be called once at the start
+         * should be called once at the start.
          *
          * @method init
          */
@@ -415,7 +465,7 @@
         },
 
         /**
-         * updates point of view
+         * updates point of view.
          *
          * @method lookAt
          * @param {Number[3]}            from  origin vector. location of the camera
@@ -440,6 +490,15 @@
             }
         },
 
+        /**
+         * sets a cube map to the scene (inverted cube with 6 images assigned).
+         * should be called at most once.
+         *
+         * @method setCubeMap
+         * @param {Object} opts
+         *   @param {Number}  size   cube size in world pixels
+         *   @param {String}  image  uri to the images. use the $ for automatic replacement for 0-5
+         */
         setCubeMap: function(opts) {
             this._cubeMap = this.createBox({
                 invert:     true,
@@ -452,14 +511,41 @@
             });
         },
 
+        /**
+         * adds a callback function that gets called every time a new frame is to rendered.
+         *
+         * @method onFrame
+         * @param  {Function}  fn  callback function. receives params t and dt
+         */
         onFrame: function(fn) {
             this._animationFn.push(fn);
         },
 
+        /**
+         * creates a group div. should have no visual representation.
+         *
+         * @method createGroup
+         * @param  {String|undefined}  id      id to assign to the new div/object
+         * @param  {String|undefined}  parent  parent object's id
+         * @return {DQuad}
+         */
         createGroup: function(id, parent) {
             return this._createDiv(id, parent);
         },
 
+        /**
+         * creates a regular div rect.
+         *
+         * @method createRect
+         * @param {Object} opts
+         *   @param {String}     id
+         *   @param {String}     parent
+         *   @param {Number[2]}  size
+         *   @param {String}     classes
+         *   @param {String}     markup
+         *   @param {String}     color
+         * @return {DQuad}
+         */
         createRect: function(opts) {
             var o = this._createDiv(opts.id, opts.parent);
             if ('size'    in opts) { o.resize(   opts.size);    }
@@ -469,6 +555,20 @@
             return o;
         },
 
+        /**
+         * creates a billboard div rect.
+         *
+         * @method createRect
+         * @param {Object} opts
+         *   @param {String}     id
+         *   @param {String}     parent
+         *   @param {Number[2]}  size
+         *   @param {String}     classes
+         *   @param {String}     markup
+         *   @param {String}     color
+         *   @param {Number[3]}  position
+         * @return {DQuad}
+         */
         createBillboard: function(opts) {
             var o = this.createRect(opts);
             o.translate(opts.position);
@@ -480,10 +580,14 @@
          * creates a 6 sided box. The order of the faces is -x, +x, -y, +y, -z, +z.
          *
          * @method createBox
-         * @param {Number[3]}                   dimensions  an array of 3 integers for x, y, and z dimensions
-         * @param {DOMElement|String}           parent      the id or element where the box gets created. defaults to the top-level node
-         * @param {Number[]}                    skips       an array of numbers ranging from 0 to 5. Each specified index gets skipped
-         * @param {Function(face, index, dims)} forEach     a callback function that gets called on each created face
+         * @param {Object} opts
+         *   @param {String}                       id
+         *   @param {Number[3]}                    dimensions  an array of 3 integers for x, y, and z dimensions
+         *   @param {DOMElement|String}            parent      the id or element where the box gets created. defaults to the top-level node
+         *   @param {Number[]}                     skips       an array of numbers ranging from 0 to 5. Each specified index gets skipped
+         *   @param {Boolean}                      invert      inverts face normals
+         *   @param {Function(face, index, dims)}  forEach     a callback function that gets called on each created face
+         * @return {DQuad}
          */
         createBox: function(opts) {
             var dims, f, g = this._createDiv(opts.id, opts.parent);
@@ -503,7 +607,6 @@
                 a = [0, 0, 0];
                 b = ~~(i / 2);
 
-                // TODO INVERT
                 a[b] = opts.dimensions[b] / (i % 2 ? -2 : 2) * (b === 0 ? -1 : 1);
                 f._t(a);
 
@@ -512,20 +615,12 @@
                 }
 
                 if (opts.invert) {
-                    if (i < 2) {
-                        f._r(rad180, [0, 1, 0]);
-                    }
-                    else if ( i > 3) {
-                        f._r(rad180, [1, 0, 0]);
-                    }
-                    else {
-                        f._r(rad180, [0, 0, 1]);
-                    }
+                    if      (i < 2) { f._r(rad180, [0, 1, 0]); }
+                    else if (i > 3) { f._r(rad180, [1, 0, 0]); }
+                    else {            f._r(rad180, [0, 0, 1]); }
                 }
 
-                if (opts.forEach) {
-                    opts.forEach(f, i, dims);
-                }
+                if (opts.forEach) { opts.forEach(f, i, dims); }
 
                 f._update();
 
@@ -535,12 +630,9 @@
             return g;
         },
 
-        // TODO
-        // **dimensions** an array of [x, y] dims
-        // **faces** integer number of faces to generate
-        // **axis** a versor vector?
-        //createCylinder: function(opts) {
-        //},
+        // createCylinder
+        // createGrid
+        // createLine
 
 
 
@@ -549,9 +641,10 @@
         /**
          * creates a div object.
          *
-         * @method createDiv
-         * @param {String|undefined}   id        an optional id to set. if falsy div3d assigns it one automatically
-         * @param {String|DOMElement|undefined}  parent is a DOM element or an id. if ommitted the div gets assigned to the root node.
+         * @private
+         * @method _createDiv
+         * @param {String|undefined}             id      an optional id to set. if falsy div3d assigns it one automatically
+         * @param {String|DOMElement|undefined}  parent  is a DOM element or an id. if ommitted the div gets assigned to the root node.
          * @return {D3D} d3d object
          */
         _createDiv: function(id, parent) {
@@ -577,57 +670,49 @@
         },
 
         /**
-         * imports an existing element from the DOM.
+         * register the new div.
          *
-         * @method importDiv
-         * @param {DOMElement|String}  elOrSelector  DOM element or a CSS selector to it
-         * @param {String|undefined}   id            optional id to assign to the element if it has none. if falsy div3d assigns it one automatically.
-         * @return {D3D} d3d object
+         * @private
+         * @method _finishDiv
+         * @param  {DOMElement}  el
+         * @param  {String}      id
+         * @return {DQuad}
          */
-        _importDiv: function(elOrSelector, id) {
-            var el = $(elOrSelector);
-
-            if (el.id) {
-                id = el.id;
-            }
-            else {
-                if (!id) {
-                    id = 'd' + this._lastId++;
-                    ++this._lastId;
-                }
-                el.id = id;
-            }
-
-            return this._finishDiv(el, id);
-        },
-
         _finishDiv: function(el, id) {
-            var o = new D3D(el);
+            var o = new DQuad(el);
             o._id = id;
             this._objects[id] = o;
             return o;
         },
 
+        /**
+         * updates the DOM.
+         *
+         * @private
+         * @method _updateDOM
+         */
         _updateDOM: function() {
             var o, id, p;
             for (id in this._needUpdate) {
                 o = this._objects[id];
                 o._clear();
-
                 p = o._trans.s; if (p) { o._s(p); }
                 p = o._trans.r; if (p) { o._r(p[0], p[1]); }
                 p = o._trans.t; if (p) { o._t(p); }
-
-                /*p = o._trans.t; if (p) { o._t(p); }
-                p = o._trans.r; if (p) { o._r(p[0], p[1]); }
-                p = o._trans.s; if (p) { o._s(p); }*/
-
                 o._update();
             }
 
             this._needUpdate = {};
         },
 
+        /**
+         * called internally prior to frame rendering.
+         *
+         * @private
+         * @method _applyAnimations
+         * @param  {Number}  t   time in seconds since the beginning of execution
+         * @param  {Number}  dt  time it took since last frame rendering, in seconds
+         */
         _applyAnimations: function(t, dt) {
             var i, f, fn;
             for (i = 0, f = this._animationFn.length; i < f; ++i) {
@@ -636,6 +721,12 @@
             }
         },
 
+        /**
+         * callback that gets called on window resize.
+         *
+         * @private
+         * @method _onResize
+         */
         _onResize: function() {
             var W = window.innerWidth;
             var H = window.innerHeight;

@@ -9,8 +9,6 @@ D.init();
 
 D.setCamera({
     from: [-40, -40, -100]
-    //,to: [0, 0, 0]
-    //,up: [0, 1, 0]
 });
 
 var rubik = D.createGroup('rubik');
@@ -54,7 +52,7 @@ for (z = 0; z < 3; ++z) {
                 side * (z - 1)
             ]);
             q._update();
-            q._m2 = q.clone();
+            q._m2 = q._mtxClone();
         }
     }
 }
