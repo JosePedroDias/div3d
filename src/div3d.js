@@ -456,15 +456,16 @@
             this._animationFn.push(fn);
         },
 
-        createGroup: function(id, parentId) {
-            return this._createDiv(id, parentId);
+        createGroup: function(id, parent) {
+            return this._createDiv(id, parent);
         },
 
         createRect: function(opts) {
-            var o = this._createDiv(opts.id, opts.parentEl);
-            if ('color'   in opts) { o.color( opts.color);     }
-            if ('size'    in opts) { o.resize(opts.size);      }
-            if ('classes' in opts) { o.addClass(opts.classes); }
+            var o = this._createDiv(opts.id, opts.parent);
+            if ('size'    in opts) { o.resize(   opts.size);    }
+            if ('classes' in opts) { o.addClass( opts.classes); }
+            if ('markup'  in opts) { o.markup(   opts.markup);  }
+            if ('color'   in opts) { o.color(    opts.color);   }
             return o;
         },
 
@@ -480,12 +481,12 @@
          *
          * @method createBox
          * @param {Number[3]}                   dimensions  an array of 3 integers for x, y, and z dimensions
-         * @param {DOMElement|String}           parentEl    the id or element where the box gets created. defaults to the top-level node
+         * @param {DOMElement|String}           parent      the id or element where the box gets created. defaults to the top-level node
          * @param {Number[]}                    skips       an array of numbers ranging from 0 to 5. Each specified index gets skipped
          * @param {Function(face, index, dims)} forEach     a callback function that gets called on each created face
          */
         createBox: function(opts) {
-            var dims, f, g = this._createDiv(opts.id, opts.parentEl);
+            var dims, f, g = this._createDiv(opts.id, opts.parent);
             var a, b;
 
             g.faces = new Array(6);

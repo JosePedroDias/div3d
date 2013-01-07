@@ -11,7 +11,7 @@ D.createGroup('cube');
 for (i = 1; i <=4; ++i) {
     o = D.createRect({
         id:       'f' + i,
-        parentEl: 'cube',
+        parent:   'cube',
         size:     sz
     });
     o.markup(i);
@@ -19,12 +19,11 @@ for (i = 1; i <=4; ++i) {
     o.translate([0, 0, 128]);
 }
 
-var a  = 0;    // current angle
+var a  = 0;            // current angle
 var vA = Math.PI / 4;  // angle change per second
 
 D.onFrame(function(t, dt) {
 	var o = D.get('cube');
-    o.translate([0, 0, -50]);
     o.rotate(a, [1, 0, 0]);
 
 	a += vA * dt * 0.001;
