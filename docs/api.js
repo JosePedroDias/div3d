@@ -1,8 +1,8 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
-        "D3D",
-        "DIV3D"
+        "DIV3D",
+        "DQuad"
     ],
     "modules": [
         "div3d"

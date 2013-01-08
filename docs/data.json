@@ -16,7 +16,7 @@
                 "div3d": 1
             },
             "classes": {
-                "D3D": 1,
+                "DQuad": 1,
                 "DIV3D": 1
             },
             "fors": {},
@@ -28,21 +28,21 @@
             "name": "div3d",
             "submodules": {},
             "classes": {
-                "D3D": 1,
+                "DQuad": 1,
                 "DIV3D": 1
             },
             "fors": {},
             "namespaces": {},
             "tag": "main",
             "file": "src/div3d.js",
-            "line": 312,
+            "line": 381,
             "itemtype": "main"
         }
     },
     "classes": {
-        "D3D": {
-            "name": "D3D",
-            "shortname": "D3D",
+        "DQuad": {
+            "name": "DQuad",
+            "shortname": "DQuad",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -51,8 +51,8 @@
             "module": "div3d",
             "namespace": "",
             "file": "src/div3d.js",
-            "line": 41,
-            "description": "The D3D class exposes an API to manipulate div3d quads (divs).\nThis constructor isn't expected to be called by the end client.\nUse DIV3D.createDiv() and DIV3D.importDiv() instead.",
+            "line": 36,
+            "description": "The DQuad class exposes an API to manipulate div3d quads (divs).\n\nThis constructor isn't expected to be called by the end client but via DIV3D's create* methods.",
             "is_constructor": 1,
             "params": [
                 {
@@ -65,10 +65,6 @@
                     "description": "the transformation matrix to assign to the object",
                     "type": "Mat4"
                 }
-            ],
-            "see": [
-                "DIV3D.createDiv",
-                "DIV3D.importDiv"
             ]
         },
         "DIV3D": {
@@ -82,7 +78,7 @@
             "module": "div3d",
             "namespace": "",
             "file": "src/div3d.js",
-            "line": 312,
+            "line": 381,
             "description": "DIV3D public interface",
             "static": 1
         }
@@ -90,90 +86,24 @@
     "classitems": [
         {
             "file": "src/div3d.js",
-            "line": 65,
-            "description": "call this method once you're done with updating transformations.",
-            "itemtype": "method",
-            "name": "update",
-            "class": "D3D",
-            "module": "div3d"
-        },
-        {
-            "file": "src/div3d.js",
-            "line": 79,
-            "description": "sets the div dimensions. the divs keeps centered over its pivot point.",
-            "itemtype": "method",
-            "name": "resize",
-            "params": [
-                {
-                    "name": "dims",
-                    "description": "is an array of integers (width and height)",
-                    "type": "Number[2]"
-                }
-            ],
-            "class": "D3D",
-            "module": "div3d"
-        },
-        {
-            "file": "src/div3d.js",
-            "line": 127,
-            "description": "adds a CSS class to the object's element.",
-            "itemtype": "method",
-            "name": "addClass",
-            "params": [
-                {
-                    "name": "clsName",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "class": "D3D",
-            "module": "div3d"
-        },
-        {
-            "file": "src/div3d.js",
-            "line": 138,
-            "description": "removes a CSS class from the object's element.",
-            "itemtype": "method",
-            "name": "removeClass",
-            "params": [
-                {
-                    "name": "clsName",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "class": "D3D",
-            "module": "div3d"
-        },
-        {
-            "file": "src/div3d.js",
-            "line": 149,
-            "description": "clears transformation matrix (sets it to the identity matrix).\nuse this prior to assigning a new set of matrices to transform an object.",
-            "itemtype": "method",
-            "name": "clear",
-            "class": "D3D",
-            "module": "div3d"
-        },
-        {
-            "file": "src/div3d.js",
-            "line": 159,
-            "description": "translates to object.",
+            "line": 58,
+            "description": "saves a translation transform for application in the object.",
             "itemtype": "method",
             "name": "translate",
             "params": [
                 {
-                    "name": "vec",
+                    "name": "pos",
                     "description": "is a 3 numbers array (dx, dy, dz)",
                     "type": "Number[3]"
                 }
             ],
-            "class": "D3D",
+            "class": "DQuad",
             "module": "div3d"
         },
         {
             "file": "src/div3d.js",
-            "line": 170,
-            "description": "rotates the object.",
+            "line": 71,
+            "description": "saves a rotation transform for application in the object.",
             "itemtype": "method",
             "name": "rotate",
             "params": [
@@ -188,15 +118,15 @@
                     "type": "Number[3]"
                 }
             ],
-            "class": "D3D",
+            "class": "DQuad",
             "module": "div3d"
         },
         {
             "file": "src/div3d.js",
-            "line": 183,
-            "description": "scales the object.",
+            "line": 86,
+            "description": "saves a scaling transform for application in the object.",
             "itemtype": "method",
-            "name": "scale",
+            "name": "_s",
             "params": [
                 {
                     "name": "s",
@@ -204,51 +134,65 @@
                     "type": "Number|Number[3]"
                 }
             ],
-            "class": "D3D",
+            "class": "DQuad",
             "module": "div3d"
         },
         {
             "file": "src/div3d.js",
-            "line": 197,
-            "description": "sets matrix as a look at",
+            "line": 99,
+            "description": "sets the div dimensions. the divs keeps centered over its pivot point.",
             "itemtype": "method",
-            "name": "lookAt",
+            "name": "resize",
             "params": [
                 {
-                    "name": "from",
-                    "description": "origin vector. location of the camera",
-                    "type": "Number[3]"
+                    "name": "dims",
+                    "description": "an array of integers (width and height)",
+                    "type": "Number[2]"
                 },
                 {
-                    "name": "to",
-                    "description": "target vector. defaults to [0, 0, 0]",
-                    "type": "Number[3]|undefined"
-                },
-                {
-                    "name": "up",
-                    "description": "up vector.     defaults to [0, 1, 0]",
-                    "type": "Number[3]|undefined"
+                    "name": "center",
+                    "description": "pivot location, specified in ratios of respective lengths",
+                    "type": "Number[2]|undefined"
                 }
             ],
-            "class": "D3D",
+            "class": "DQuad",
             "module": "div3d"
         },
         {
             "file": "src/div3d.js",
-            "line": 211,
-            "description": "returns a clone of the matrix",
+            "line": 145,
+            "description": "adds a CSS class / several classes to the object's DOM element.",
             "itemtype": "method",
-            "name": "clone",
-            "return": {
-                "description": "",
-                "type": "Mat4"
-            },
-            "class": "D3D",
+            "name": "addClass",
+            "params": [
+                {
+                    "name": "clsName",
+                    "description": "supports several classes separated by spaces",
+                    "type": "String"
+                }
+            ],
+            "class": "DQuad",
             "module": "div3d"
         },
         {
             "file": "src/div3d.js",
-            "line": 221,
+            "line": 165,
+            "description": "removes a CSS class / several classes from the object's DOM element.",
+            "itemtype": "method",
+            "name": "removeClass",
+            "params": [
+                {
+                    "name": "clsName",
+                    "description": "supports several classes separated by spaces",
+                    "type": "String"
+                }
+            ],
+            "class": "DQuad",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 185,
             "description": "sets the object's opacity.",
             "itemtype": "method",
             "name": "opacity",
@@ -259,12 +203,12 @@
                     "type": "Number"
                 }
             ],
-            "class": "D3D",
+            "class": "DQuad",
             "module": "div3d"
         },
         {
             "file": "src/div3d.js",
-            "line": 232,
+            "line": 196,
             "description": "sets the object's color.",
             "itemtype": "method",
             "name": "color",
@@ -275,22 +219,173 @@
                     "type": "String"
                 }
             ],
-            "class": "D3D",
+            "class": "DQuad",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 206,
+            "description": "sets the DOM element's inner HTML from the given markup.",
+            "params": [
+                {
+                    "name": "html",
+                    "description": "markup to set",
+                    "type": "String"
+                }
+            ],
+            "class": "DQuad",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 215,
+            "description": "centers one line of text in the div.",
+            "itemtype": "method",
+            "name": "centerText",
+            "class": "DQuad",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 228,
+            "description": "call this method once you're done with updating transformations to apply the matrix to the DOM element via transform: matrix3d()",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_update",
+            "class": "DQuad",
             "module": "div3d"
         },
         {
             "file": "src/div3d.js",
             "line": 242,
-            "description": "centers one line of text in the div",
+            "description": "clears transformation matrix (sets it to the identity matrix).\nuse this prior to assigning a new set of matrices to transform an object.",
+            "access": "private",
+            "tagname": "",
             "itemtype": "method",
-            "name": "centerText",
-            "class": "D3D",
+            "name": "_clear",
+            "class": "DQuad",
             "module": "div3d"
         },
         {
             "file": "src/div3d.js",
-            "line": 326,
-            "description": "should be called once at the start",
+            "line": 253,
+            "description": "immediate translation of the object's internal matrix.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_t",
+            "params": [
+                {
+                    "name": "vec",
+                    "description": "is a 3 numbers array (dx, dy, dz)",
+                    "type": "Number[3]"
+                }
+            ],
+            "class": "DQuad",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 264,
+            "description": "immediate rotation of the object's internal matrix.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_r",
+            "params": [
+                {
+                    "name": "angle",
+                    "description": "the angle to rotate around the axis, in radians",
+                    "type": "Number"
+                },
+                {
+                    "name": "axis",
+                    "description": "is a 3D versor, that is, a 3 dimensions vector with norm 1",
+                    "type": "Number[3]"
+                }
+            ],
+            "class": "DQuad",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 276,
+            "description": "immediate scaling of the object's internal matrix.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_s",
+            "params": [
+                {
+                    "name": "s",
+                    "description": "can either be a number (for proportional scale) or a 3 dimensions vector",
+                    "type": "Number|Number[3]"
+                }
+            ],
+            "class": "DQuad",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 290,
+            "description": "returns a clone of the internal matrix.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "clone",
+            "return": {
+                "description": "",
+                "type": "Mat4"
+            },
+            "class": "DQuad",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 301,
+            "description": "implements the billboard behavior. TODO",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_billboard",
+            "params": [
+                {
+                    "name": "pos",
+                    "description": "position",
+                    "type": "Number[3]"
+                }
+            ],
+            "class": "DQuad",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 331,
+            "description": "implements the axis-aligned billboard behavior. TODO",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_billboardAxisAligned",
+            "params": [
+                {
+                    "name": "pos",
+                    "description": "position",
+                    "type": "Number[3]"
+                },
+                {
+                    "name": "axisNum",
+                    "description": "0 for X, 1 for Y, 2 for Z",
+                    "type": "Number"
+                }
+            ],
+            "class": "DQuad",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 397,
+            "description": "should be called once at the start.",
             "itemtype": "method",
             "name": "init",
             "class": "DIV3D",
@@ -298,7 +393,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 350,
+            "line": 438,
             "description": "should be called at the beginning of the requestAnimationFrame callback, passing it its first argument.\nthe API exposes DIV3D._t and DIV3D._dt",
             "itemtype": "method",
             "name": "time",
@@ -322,7 +417,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 368,
+            "line": 456,
             "description": "gets an object from its id.",
             "itemtype": "method",
             "name": "get",
@@ -342,68 +437,226 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 379,
-            "description": "creates a div object.",
+            "line": 467,
+            "description": "updates point of view.",
             "itemtype": "method",
-            "name": "createDiv",
+            "name": "lookAt",
+            "params": [
+                {
+                    "name": "from",
+                    "description": "origin vector. location of the camera",
+                    "type": "Number[3]"
+                },
+                {
+                    "name": "to",
+                    "description": "target vector. defaults to [0, 0, 0]",
+                    "type": "Number[3]|undefined"
+                },
+                {
+                    "name": "up",
+                    "description": "up vector.     defaults to [0, 1, 0]",
+                    "type": "Number[3]|undefined"
+                }
+            ],
+            "class": "DIV3D",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 493,
+            "description": "sets a cube map to the scene (inverted cube with 6 images assigned).\nshould be called at most once.",
+            "itemtype": "method",
+            "name": "setCubeMap",
+            "params": [
+                {
+                    "name": "opts",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "size",
+                    "description": "cube size in world pixels",
+                    "type": "Number"
+                },
+                {
+                    "name": "image",
+                    "description": "uri to the images. use the $ for automatic replacement for 0-5",
+                    "type": "String"
+                }
+            ],
+            "class": "DIV3D",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 520,
+            "description": "adds a callback function that gets called every time a new frame is to rendered.",
+            "itemtype": "method",
+            "name": "onFrame",
+            "params": [
+                {
+                    "name": "fn",
+                    "description": "callback function. receives params t and dt",
+                    "type": "Function"
+                }
+            ],
+            "class": "DIV3D",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 530,
+            "description": "creates a group div. should have no visual representation.",
+            "itemtype": "method",
+            "name": "createGroup",
             "params": [
                 {
                     "name": "id",
-                    "description": "an optional id to set. if falsy div3d assigns it one automatically",
+                    "description": "id to assign to the new div/object",
                     "type": "String|undefined"
                 },
                 {
-                    "name": "parentEl",
-                    "description": "is a DOM element or a CSS selector to it. if ommitted the div gets assigned to the root node.",
-                    "type": "DOMElement|String"
+                    "name": "parent",
+                    "description": "parent object's id",
+                    "type": "String|undefined"
                 }
             ],
             "return": {
-                "description": "d3d object",
-                "type": "D3D"
+                "description": "",
+                "type": "DQuad"
             },
             "class": "DIV3D",
             "module": "div3d"
         },
         {
             "file": "src/div3d.js",
-            "line": 400,
-            "description": "imports an existing element from the DOM.",
+            "line": 542,
+            "description": "creates a regular div rect.",
             "itemtype": "method",
-            "name": "importDiv",
+            "name": "createRect",
             "params": [
                 {
-                    "name": "elOrSelector",
-                    "description": "DOM element or a CSS selector to it",
-                    "type": "DOMElement|String"
+                    "name": "opts",
+                    "description": "",
+                    "type": "Object"
                 },
                 {
-                    "name": "optional",
-                    "description": "id to assign to the element if it has none. if falsy div3d assigns it one automatically.",
-                    "type": "String|undefined"
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "parent",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "size",
+                    "description": "",
+                    "type": "Number[2]"
+                },
+                {
+                    "name": "classes",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "markup",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "color",
+                    "description": "",
+                    "type": "String"
                 }
             ],
             "return": {
-                "description": "d3d object",
-                "type": "D3D"
+                "description": "",
+                "type": "DQuad"
             },
             "class": "DIV3D",
             "module": "div3d"
         },
         {
             "file": "src/div3d.js",
-            "line": 425,
+            "line": 564,
+            "description": "creates a billboard div rect.",
+            "itemtype": "method",
+            "name": "createRect",
+            "params": [
+                {
+                    "name": "opts",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "parent",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "size",
+                    "description": "",
+                    "type": "Number[2]"
+                },
+                {
+                    "name": "classes",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "markup",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "color",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "position",
+                    "description": "",
+                    "type": "Number[3]"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "DQuad"
+            },
+            "class": "DIV3D",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 585,
             "description": "creates a 6 sided box. The order of the faces is -x, +x, -y, +y, -z, +z.",
             "itemtype": "method",
             "name": "createBox",
             "params": [
+                {
+                    "name": "opts",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                },
                 {
                     "name": "dimensions",
                     "description": "an array of 3 integers for x, y, and z dimensions",
                     "type": "Number[3]"
                 },
                 {
-                    "name": "parentEl",
+                    "name": "parent",
                     "description": "the id or element where the box gets created. defaults to the top-level node",
                     "type": "DOMElement|String"
                 },
@@ -413,11 +666,119 @@
                     "type": "Number[]"
                 },
                 {
+                    "name": "invert",
+                    "description": "inverts face normals",
+                    "type": "Boolean"
+                },
+                {
                     "name": "forEach",
                     "description": "a callback function that gets called on each created face",
                     "type": "Function(face, index, dims)"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "DQuad"
+            },
+            "class": "DIV3D",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 649,
+            "description": "creates a div object.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_createDiv",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "an optional id to set. if falsy div3d assigns it one automatically",
+                    "type": "String|undefined"
+                },
+                {
+                    "name": "parent",
+                    "description": "is a DOM element or an id. if ommitted the div gets assigned to the root node.",
+                    "type": "String|DOMElement|undefined"
+                }
+            ],
+            "return": {
+                "description": "d3d object",
+                "type": "D3D"
+            },
+            "class": "DIV3D",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 680,
+            "description": "register the new div.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_finishDiv",
+            "params": [
+                {
+                    "name": "el",
+                    "description": "",
+                    "type": "DOMElement"
+                },
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "DQuad"
+            },
+            "class": "DIV3D",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 696,
+            "description": "updates the DOM.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_updateDOM",
+            "class": "DIV3D",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 716,
+            "description": "called internally prior to frame rendering.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_applyAnimations",
+            "params": [
+                {
+                    "name": "t",
+                    "description": "time in seconds since the beginning of execution",
+                    "type": "Number"
+                },
+                {
+                    "name": "dt",
+                    "description": "time it took since last frame rendering, in seconds",
+                    "type": "Number"
+                }
+            ],
+            "class": "DIV3D",
+            "module": "div3d"
+        },
+        {
+            "file": "src/div3d.js",
+            "line": 732,
+            "description": "callback that gets called on window resize.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_onResize",
             "class": "DIV3D",
             "module": "div3d"
         }
@@ -425,7 +786,11 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/div3d.js:211"
+            "line": " src/div3d.js:290"
+        },
+        {
+            "message": "Missing item type\nsets the DOM element's inner HTML from the given markup.",
+            "line": " src/div3d.js:206"
         }
     ]
 }
