@@ -9,7 +9,7 @@
     font-size:                      200px;
     font-weight:                    bold;
     color:                          rgba(0, 0, 0, 0.5);
-    background-image:               url(nyan-cat.gif);
+    background-image:               url(resources/nyan-cat.gif);
     background-position:            50% 50%;
     background-size:                100% 70%; /*500 350*/
     background-repeat:              no-repeat;

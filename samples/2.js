@@ -1,4 +1,4 @@
-/*global DIV3D:false, requestAnimationFrame:false */
+/*global DIV3D:false */
 
 var D = DIV3D;
 
@@ -7,42 +7,37 @@ var  a90 = Math.PI / 2;
 var  a60 = Math.PI / 3;
 var  a45 = Math.PI / 4;
 
-
-
 D.init();
-
-
 
 var o, i;
 
 var sz = [256, 256];
 
-o = D.createDiv('cube');
+D.createGroup('cube');
 
-for (i = 1; i <=4; ++i) {
-    o = D.createDiv('f' + i, '#cube');
-    o.addClass('interactive');
-    o.resize(sz);
-    o.element.innerHTML = i;
-    o.element.classList.add('cubeFace');
+for (i = 1; i <= 4; ++i) {
+    o = D.createRect({
+        id:       'f' + i,
+        parent:   'cube',
+        classes:  'interactive cubeFace',
+        size:     sz,
+        markup:   i
+    });
     o.rotate(-a90*i, [1, 0, 0]);
     o.translate([0, 0, 128]);
-    o.update();
 }
 
-o = D.createDiv('orbit');
-o.update();
+D.createGroup('orbit');
 
 for (i = 1; i <= 6; ++i) {
-    o = D.createDiv(undefined, '#orbit');
-    o.addClass('title');
-    o.addClass('doubleSided');
-    o.resize([400, 100]);
-    o.element.innerHTML = 'DIV3D';
-
+    o = D.createRect({
+        parent:   'orbit',
+        classes:  'title doubleSided',
+        size:     [400, 100],
+        markup:   'DIV3D'
+    });
     o.rotate(a60*i, [0, 1, 0]);
     o.translate([0, 0, 240]);
-    o.update();
 }
 
 /*document.body.addEventListener('click', function(ev) {
@@ -55,26 +50,14 @@ for (i = 1; i <= 6; ++i) {
 var a  = 0;    // current angle
 var vA = a45;  // angle change per second
 
-
-
-var render = function(t) {
-    var dt = D.time(t);
-
+D.onFrame(function(t, dt) {
 	var o;
 
     o = D.get('cube');
-    o.clear();
     o.rotate(a, [1, 0, 0]);
-    o.update();
 
     o = D.get('orbit');
-    o.clear();
     o.rotate(a, [0, 1, 0]);
-    o.update();
 
 	a += vA * dt * 0.001;
-
-	requestAnimationFrame(render);
-};
-
-render();
+});

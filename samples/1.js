@@ -1,53 +1,30 @@
-/*global DIV3D:false, requestAnimationFrame:false */
+/*global DIV3D:false */
 
 var D = DIV3D;
 
-// some common angles in radians
-var  a90 = Math.PI / 2;
-var  a45 = Math.PI / 4;
-
-
-
 D.init();
 
+var o, i, sz = [256, 256];
 
-
-var o, i;
-
-var sz = [256, 256];
-
-o = D.createDiv('cube');
+D.createGroup('cube');
 
 for (i = 1; i <=4; ++i) {
-    o = D.createDiv('f' + i, '#cube');
-    o.resize(sz);
-    o.element.innerHTML = i;
-    o.clear();
-    o.rotate(-a90*i, [1, 0, 0]);
+    o = D.createRect({
+        id:       'f' + i,
+        parent:   'cube',
+        size:     sz
+    });
+    o.markup(i);
+    o.rotate(-Math.PI/2*i, [1, 0, 0]);
     o.translate([0, 0, 128]);
-    o.update();
 }
 
+var a  = 0;            // current angle
+var vA = Math.PI / 4;  // angle change per second
 
-
-var a  = 0;    // current angle
-var vA = a45;  // angle change per second
-
-
-
-var render = function(t) {
-    var dt = D.time(t);
-
-	var o;
-    o = D.get('cube');
-    o.clear();
-    o.translate([0, 0, -50]);
+D.onFrame(function(t, dt) {
+	var o = D.get('cube');
     o.rotate(a, [1, 0, 0]);
-    o.update();
 
 	a += vA * dt * 0.001;
-
-	requestAnimationFrame(render);
-};
-
-render();
+});

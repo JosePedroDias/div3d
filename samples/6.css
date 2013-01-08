@@ -1,0 +1,18 @@
+.container {
+    -webkit-perspective:            450px;
+            perspective:            450px;
+}
+
+#ax { background-color: #F00; }
+#lx {           -color: #F00; }
+
+#ay { background-color: #0F0; }
+#ly {           -color: #0F0; }
+
+#az { background-color: #00F; }
+#lz {           -color: #00F; }
+
+#lx, #ly, #lz {
+    font-size: 32px;
+    font-weight: bold;
+}

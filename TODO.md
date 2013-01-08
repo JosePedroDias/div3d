@@ -1,39 +1,48 @@
 # TODOs
 
 
-# higher level code
+## higher level code
 
-* less to abstract vendor prefixes (firefox and ie lacking)
-* make proper use of jsdev to test input parameters on debug version (ongoing)
+* 33% make proper use of jsdev to test input parameters on debug version (ongoing)
 
 
 ## utility constructors
 
-* cube (inverted option for sky boxes)
-* camera-aligned sprites (think flares, stars, etc.)
-* axis-aligned sprites (think trees)
-* cylinder
-* split quad for special effects
-
+*  90% cube (still lacking inverted option for sky boxes)
+* 100% camera-aligned billboards (think flares, stars, etc.)
+*  50% axis-aligned billboards (think trees)
+*   0% cylinder
+*   0% split quad for special effects
 
 
 ## camera abstractions
 
-* look at
-* isometric / ortho (are these possible?)
+* 0% isometric / ortho (are these possible?)
+
+
+## transformations
+
+* 0% project / unproject
 
 
 ## animation
 
-* easing functions
-* animation helpers
+* 0% easing functions
+* 0% linear interpolation for floats, vectors, quaternions, colors
+* 0% animation helpers
 
 
 ## samples:
 
-* soccer field
-* tennis court
-* wheel of fortune
-* coverflow
-* airport clock
-* environment map (cubemap application)
+* 50% soccer field
+*  0% tennis court
+*  0% wheel of fortune
+*  0% coverflow
+*  0% airport clock
+*  0% environment map (cubemap application)
+
+
+# sample challenges:
+
+* soccer ball mapping of rotation -> 2D rendered sprite
+* rubik's cube data structure

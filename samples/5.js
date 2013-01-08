@@ -1,4 +1,4 @@
-/*global DIV3D:false, requestAnimationFrame:false */
+/*global DIV3D:false */
 
 var side = 64;
 var dims = [side, side, side];
@@ -7,13 +7,13 @@ var colors = ['w', 'r', 'g', 'b', 'y', 'o'];
 var D = DIV3D;
 D.init();
 
-var rubik = D.createDiv('rubik');
-rubik.lookAt([-40, -40, -100]);//, [0, 100, 0], [0, 1, 0]);
-rubik.update();
+D.setCamera({
+    from: [-40, -40, -100]
+});
 
-var x, y, z, q;
+var rubik = D.createGroup('rubik');
 
-var sk = function(x, y, z) {
+var sk = function(/*x, y, z*/) {
     var r = [];//TODO
 
     /*if (x !== 0) { r.push(0); }
@@ -29,88 +29,82 @@ var sk = function(x, y, z) {
 
 var fe = function(o, i) {
     o.addClass('blk');
-    o.element.innerHTML = ['<div class="c ', colors[i], '"></div>'].join('');
+    o.markup( ['<div class="c ', colors[i], '"></div>'].join('') );
 };
 
+var x, y, z, q;
 for (z = 0; z < 3; ++z) {
     for (y = 0; y < 3; ++y) {
         for (x = 0; x < 3; ++x) {
             if (x === 1 && y === 1 && z === 1) { continue; }
             q = D.createBox({
                 id:         ['q', x, y, z].join('_'),
-                parentEl:   rubik.element,
-                //parentEl:   '#rubik',
-                skips:      sk(x, y, z),
+                parentEl:   'rubik',
                 dimensions: dims,
+                skips:      sk(x, y, z),
                 forEach:    fe
             });
 
             q.addClass('q');
-            q.translate([
+            q._t([
                 side * (x - 1),
                 side * (y - 1),
                 side * (z - 1)
             ]);
-            q.update();
-            q.m2 = q.clone();
+            q._update();
+            q._m2 = q._mtxClone();
         }
     }
 }
 
 var a = 0;
 var vA = Math.PI/4;
+var mode = 0;
+var r = 100;
 
+D.onFrame(function(t, dt) {
+    var x, y, z, o, camPos;
 
+    switch (mode) {
+        case 0: // setup dynamic point of view
+            camPos = [
+                r * Math.cos(a),
+                0,
+                r * Math.sin(a)
+            ];
+            D.setCamera({from:camPos});
+            break;
 
+        case 1: // rotate whole cube at once
+            rubik.rotate(a, [0, 1, 0]);
+            break;
 
-var render = function(t) {
-    var dt = D.time(t);
+        case 2: // rotate a piece
+            x = 0, y = 1, z = 2;
+            o = D.get(['q', x, y, z].join('_'));
+            o.rotate(a, [0, 1, 0]);
+            o.translate([
+                side * (x - 1),
+                side * (y - 1),
+                side * (z - 1)
+            ]);
+            break;
 
-    // setup dynamic point of view
-    /*var o = rubik;
-    o.lookAt([
-        100 * Math.cos(a),
-        0,
-        100 * Math.sin(a)
-    ]);
-    o.update();*/
-
-    // rotate whole cube at once
-	/*var o = rubik;
-    o.clear();
-    o.rotate(a, [0, 1, 0], a);
-    o.update();*/
-
-    // rotate a piece
-    /*var x = 0, y = 1, z = 2;
-    var o = D.get(['q', x, y, z].join('_'));
-    o.clear();
-    o.rotate(a, [0, 1, 0], a);
-    o.translate([
-        side * (x - 1),
-        side * (y - 1),
-        side * (z - 1)
-    ]);
-    o.update();*/
-
-    // rotate several pieces individually
-    var x, y, z, o;
-    for (z = 0; z < 3; ++z) {
-        for (y = 0; y < 3; ++y) {
-            for (x = 0; x < 3; ++x) {
-                o = D.get(['q', x, y, z].join('_'));
-                if (!o || y !== 0) { continue; } // y === 0
-                o.clear();
-                o.rotate(a, [0, 1, 0]);
-                mat4.multiply(o.matrix, o.matrix, o.m2);
-                o.update();
+        case 3: // rotate several pieces individually
+            for (z = 0; z < 3; ++z) {
+                for (y = 0; y < 3; ++y) {
+                    for (x = 0; x < 3; ++x) {
+                        o = D.get(['q', x, y, z].join('_'));
+                        if (!o || y !== 0) { continue; } // y === 0
+                        o._clear();
+                        o._r(a, [0, 1, 0]);
+                        mat4.multiply(o._mtx, o._mtx, o._m2);
+                        o._update();
+                    }
+                }
             }
-        }
+            break;
     }
 
-	a += vA * dt * 0.001;
-
-	requestAnimationFrame(render);
-};
-
-render();
+    a += vA * dt * 0.001;
+});
