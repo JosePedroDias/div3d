@@ -24,12 +24,12 @@
 
     // auxiliary stuff for the DIV3D.createBox() method
     var boxStuff = [
-        [ [2, 1], [ 0, -1, 0] ], // -x
-        [ [2, 1], [ 0,  1, 0] ], // +x
-        [ [0, 2], [-1,  0, 0] ], // -y
-        [ [0, 2], [ 1,  0, 0] ], // +y
-        [ [0, 1], [ 0,  0, 0] ], // -z
-        [ [0, 1], [ 0,  1, 0] ]  // +z
+        [ [2, 1], [ 0, -1, 0], 0], // -x
+        [ [2, 1], [ 0,  1, 0], 0], // +x
+        [ [0, 2], [-1,  0, 0], 0], // -y
+        [ [0, 2], [ 1,  0, 0], 0], // +y
+        [ [0, 1], [ 0,  0, 0], 1], // -z
+        [ [0, 1], [ 0,  1, 0], 1]  // +z
     ];
 
 
@@ -507,6 +507,12 @@
                     var s = f._el.style;
                     s.backgroundImage = ['url(', opts.image.replace('$', i), ')'].join('');
                     s.backgroundSize  = '100% 100%';
+                    f.markup(i);
+                    f.opacity(0.5);
+                    s.color = '#FFF';
+                    s.fontSize = ~~(opts.size*0.75) + 'px';
+                    s.lineHeight = opts.size + 'px';
+                    s.textAlign = 'center';
                 }
             });
         },
@@ -591,15 +597,15 @@
          */
         createBox: function(opts) {
             var dims, f, g = this._createDiv(opts.id, opts.parent);
-            var a, b;
+            var a, b, bs;
 
             g.faces = new Array(6);
 
             for (var i = 0; i < 6; ++i) {
                 if (opts.skips && opts.skips.indexOf(i) !== -1) { continue; }
                 f = this._createDiv(undefined, g._el);
-
-                a = boxStuff[i][0];
+                bs = boxStuff[i];
+                a = bs[0];
                 b = opts.dimensions;
                 dims = [b[a[0]], b[a[1]]];
                 f.resize(dims);
@@ -611,13 +617,15 @@
                 f._t(a);
 
                 if (i < 6) {
-                    f._r(rad90 * (i === 5 ? 2 : 1), boxStuff[i][1]);
+                    f._r(rad90 * (i === 5 ? 2 : 1), bs[1]);
                 }
 
                 if (opts.invert) {
+                    //if (boxStuff[i][2]) { f._r(rad180, [1, 0, 0]); }
+
                     if      (i < 2) { f._r(rad180, [0, 1, 0]); }
-                    else if (i > 3) { f._r(rad180, [1, 0, 0]); }
-                    else {            f._r(rad180, [0, 0, 1]); }
+                    else if (i > 3) { f._r(rad180, [1, 0, 0]); f._r(rad180, [0, 0, 1]); }
+                    else {            f._r(rad180, [1, 0, 0]); }
                 }
 
                 if (opts.forEach) { opts.forEach(f, i, dims); }
@@ -731,6 +739,33 @@
             var W = window.innerWidth;
             var H = window.innerHeight;
             this._containerDims = [W, H];
+
+            /*
+            // shameless rip of http://mrdoob.github.com/three.js/examples/js/renderers/CSS3DRenderer.js
+
+            var camFov = 75 * Math.PI / 180; // in radians
+            var fov = 0.5 / Math.tan(camFov * 0.5) * H;
+
+            var root0 = this._root0;
+            var cam   = this._camera;
+
+            var s = root0._el.style;
+            s.WebkitPerspectiveOriginX = '50%';
+            s.WebkitPerspectiveOriginY = '50%';
+            s.WebkitPerspective = fov.toFixed(4) + 'px';
+
+            var from = [0, 0, 0];
+            var to   = [0, 0, 1];
+            var up   = [0, 1, 0];
+            mat4.lookAt(cam._mtx, from, to, up);
+            mat4.invert(cam._mtx, cam._mtx);
+
+            s = cam._el.style;
+            s.WebkitTransform = [
+                'translate3d(0, 0, ', fov.toFixed(4), 'px) ',
+                'matrix3d(', mat4.str(cam._mtx), ') ',
+                'translate3d(', W/2, 'px, ', H/2, 'px, 0)'
+            ].join('');*/
 
             var o = this._root0;
             o._clear();

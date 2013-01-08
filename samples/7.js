@@ -5,12 +5,12 @@ D.init();
 
 D.setCamera({
     from: [0, 0, 0],
-    to:   [0, 0, 10]
+    to:   [0, 0, 1]
 });
 
 D.setCubeMap({
     size:      1024,
-    image:     'resources/cubemap1_4.jpg'
+    image:     'resources/cube1/$.jpg'
 });
 
 
@@ -18,7 +18,7 @@ var a = 0;
 var vA = Math.PI/4;
 
 D.onFrame(function(t, dt) {
-    var r = 1000;
+    var r = 1;
     D.setCamera({
         to: [
                 r * Math.cos(a),
