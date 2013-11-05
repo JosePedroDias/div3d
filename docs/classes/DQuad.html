@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8">
     <title>DQuad - div3d</title>
-    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.8.0pr2&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
-    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
-    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
-    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
-    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.8.0pr2&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -15,7 +15,7 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src=" " title="div3d"></h1>
+                <h1><img src="../ " title="div3d"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
@@ -41,15 +41,15 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="..&#x2F;classes/DIV3D.html">DIV3D</a></li>
+                <li><a href="../classes/DIV3D.html">DIV3D</a></li>
             
-                <li><a href="..&#x2F;classes/DQuad.html">DQuad</a></li>
+                <li><a href="../classes/DQuad.html">DQuad</a></li>
             
             </ul>
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="..&#x2F;modules/div3d.html">div3d</a></li>
+                <li><a href="../modules/div3d.html">div3d</a></li>
             
             </ul>
         </div>
@@ -107,8 +107,8 @@
 
 <div class="box intro">
     <p>The DQuad class exposes an API to manipulate div3d quads (divs).</p>
+<p>This constructor isn&#39;t expected to be called by the end client but via DIV3D&#39;s create* methods.</p>
 
-<p>This constructor isn't expected to be called by the end client but via DIV3D's create* methods.</p>
 </div>
 
 
@@ -188,6 +188,7 @@
 
                     <div class="param-description">
                         <p>the DOM element to assign to the object</p>
+
                     </div>
 
                     
@@ -203,6 +204,7 @@
 
                     <div class="param-description">
                         <p>the transformation matrix to assign to the object</p>
+
                     </div>
 
                     
@@ -429,6 +431,7 @@
 
     <div class="description">
         <p>implements the billboard behavior. TODO</p>
+
     </div>
 
     
@@ -447,6 +450,7 @@
 
                     <div class="param-description">
                         <p>position</p>
+
                     </div>
 
                     
@@ -520,6 +524,7 @@
 
     <div class="description">
         <p>implements the axis-aligned billboard behavior. TODO</p>
+
     </div>
 
     
@@ -538,6 +543,7 @@
 
                     <div class="param-description">
                         <p>position</p>
+
                     </div>
 
                     
@@ -553,6 +559,7 @@
 
                     <div class="param-description">
                         <p>0 for X, 1 for Y, 2 for Z</p>
+
                     </div>
 
                     
@@ -611,6 +618,7 @@
     <div class="description">
         <p>clears transformation matrix (sets it to the identity matrix).
 use this prior to assigning a new set of matrices to transform an object.</p>
+
     </div>
 
     
@@ -678,7 +686,8 @@ use this prior to assigning a new set of matrices to transform an object.</p>
     </div>
 
     <div class="description">
-        <p>immediate rotation of the object's internal matrix.</p>
+        <p>immediate rotation of the object&#39;s internal matrix.</p>
+
     </div>
 
     
@@ -697,6 +706,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
                     <div class="param-description">
                         <p>the angle to rotate around the axis, in radians</p>
+
                     </div>
 
                     
@@ -712,6 +722,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
                     <div class="param-description">
                         <p>is a 3D versor, that is, a 3 dimensions vector with norm 1</p>
+
                     </div>
 
                     
@@ -777,6 +788,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
     <div class="description">
         <p>saves a scaling transform for application in the object.</p>
+
     </div>
 
     
@@ -795,6 +807,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
                     <div class="param-description">
                         <p>can either be a number (for proportional scale) or a 3 dimensions vector</p>
+
                     </div>
 
                     
@@ -861,7 +874,8 @@ use this prior to assigning a new set of matrices to transform an object.</p>
     </div>
 
     <div class="description">
-        <p>immediate scaling of the object's internal matrix.</p>
+        <p>immediate scaling of the object&#39;s internal matrix.</p>
+
     </div>
 
     
@@ -880,6 +894,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
                     <div class="param-description">
                         <p>can either be a number (for proportional scale) or a 3 dimensions vector</p>
+
                     </div>
 
                     
@@ -946,7 +961,8 @@ use this prior to assigning a new set of matrices to transform an object.</p>
     </div>
 
     <div class="description">
-        <p>immediate translation of the object's internal matrix.</p>
+        <p>immediate translation of the object&#39;s internal matrix.</p>
+
     </div>
 
     
@@ -965,6 +981,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
                     <div class="param-description">
                         <p>is a 3 numbers array (dx, dy, dz)</p>
+
                     </div>
 
                     
@@ -1021,7 +1038,8 @@ use this prior to assigning a new set of matrices to transform an object.</p>
     </div>
 
     <div class="description">
-        <p>call this method once you're done with updating transformations to apply the matrix to the DOM element via transform: matrix3d()</p>
+        <p>call this method once you&#39;re done with updating transformations to apply the matrix to the DOM element via transform: matrix3d()</p>
+
     </div>
 
     
@@ -1081,7 +1099,8 @@ use this prior to assigning a new set of matrices to transform an object.</p>
     </div>
 
     <div class="description">
-        <p>adds a CSS class / several classes to the object's DOM element.</p>
+        <p>adds a CSS class / several classes to the object&#39;s DOM element.</p>
+
     </div>
 
     
@@ -1100,6 +1119,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
                     <div class="param-description">
                         <p>supports several classes separated by spaces</p>
+
                     </div>
 
                     
@@ -1155,6 +1175,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
     <div class="description">
         <p>centers one line of text in the div.</p>
+
     </div>
 
     
@@ -1211,6 +1232,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
     <div class="description">
         <p>returns a clone of the internal matrix.</p>
+
     </div>
 
     
@@ -1282,7 +1304,8 @@ use this prior to assigning a new set of matrices to transform an object.</p>
     </div>
 
     <div class="description">
-        <p>sets the object's color.</p>
+        <p>sets the object&#39;s color.</p>
+
     </div>
 
     
@@ -1301,6 +1324,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
                     <div class="param-description">
                         <p>can be any supported CSS color</p>
+
                     </div>
 
                     
@@ -1365,7 +1389,8 @@ use this prior to assigning a new set of matrices to transform an object.</p>
     </div>
 
     <div class="description">
-        <p>sets the object's opacity.</p>
+        <p>sets the object&#39;s opacity.</p>
+
     </div>
 
     
@@ -1384,6 +1409,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
                     <div class="param-description">
                         <p>a float ranging from 0 to 1</p>
+
                     </div>
 
                     
@@ -1448,7 +1474,8 @@ use this prior to assigning a new set of matrices to transform an object.</p>
     </div>
 
     <div class="description">
-        <p>removes a CSS class / several classes from the object's DOM element.</p>
+        <p>removes a CSS class / several classes from the object&#39;s DOM element.</p>
+
     </div>
 
     
@@ -1467,6 +1494,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
                     <div class="param-description">
                         <p>supports several classes separated by spaces</p>
+
                     </div>
 
                     
@@ -1538,6 +1566,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
     <div class="description">
         <p>sets the div dimensions. the divs keeps centered over its pivot point.</p>
+
     </div>
 
     
@@ -1556,6 +1585,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
                     <div class="param-description">
                         <p>an array of integers (width and height)</p>
+
                     </div>
 
                     
@@ -1571,6 +1601,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
                     <div class="param-description">
                         <p>pivot location, specified in ratios of respective lengths</p>
+
                     </div>
 
                     
@@ -1642,6 +1673,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
     <div class="description">
         <p>saves a rotation transform for application in the object.</p>
+
     </div>
 
     
@@ -1660,6 +1692,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
                     <div class="param-description">
                         <p>the angle to rotate around the axis, in radians</p>
+
                     </div>
 
                     
@@ -1675,6 +1708,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
                     <div class="param-description">
                         <p>is a 3D versor, that is, a 3 dimensions vector with norm 1</p>
+
                     </div>
 
                     
@@ -1740,6 +1774,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
     <div class="description">
         <p>saves a translation transform for application in the object.</p>
+
     </div>
 
     
@@ -1758,6 +1793,7 @@ use this prior to assigning a new set of matrices to transform an object.</p>
 
                     <div class="param-description">
                         <p>is a 3 numbers array (dx, dy, dz)</p>
+
                     </div>
 
                     
@@ -1790,13 +1826,13 @@ use this prior to assigning a new set of matrices to transform an object.</p>
         </div>
     </div>
 </div>
-<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
 <script>prettyPrint();</script>
-<script src="..&#x2F;assets/js/yui-prettify.js"></script>
-<script src="..&#x2F;assets/../api.js"></script>
-<script src="..&#x2F;assets/js/api-filter.js"></script>
-<script src="..&#x2F;assets/js/api-list.js"></script>
-<script src="..&#x2F;assets/js/api-search.js"></script>
-<script src="..&#x2F;assets/js/apidocs.js"></script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
 </body>
 </html>
