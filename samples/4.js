@@ -44,11 +44,13 @@ for (i = 0, f = players.length; i < f; ++i) {
     v = [~~(w*s), ~~(h*s)];
 
     o = D.createBillboard({
+    //o = D.createRect({
         id:       'player_' + i,
         position: [w*plr[0], -v[1]/2, h*plr[1]],
         size:     v,
         classes:  'player doubleSided'
     });
+    //o.translate([w*plr[0], -v[1]/2, h*plr[1]]);
 
     o._el.style.backgroundSize = [v[0], 'px ', v[1], 'px'].join('');
 }

@@ -32,6 +32,9 @@
         [ [0, 1], [ 0,  1, 0], 1]  // +z
     ];
 
+    var _tmpMatrix = mat4.create(1);
+    var _tmpVec3   = vec3.create(1);
+
 
     /**
      * The DQuad class exposes an API to manipulate div3d quads (divs).
@@ -299,26 +302,20 @@
         },
 
         /**
-         * implements the billboard behavior. TODO
+         * implements the billboard behavior.
          *
          * @private
          * @method _billboard
          * @param  {Number[3]}  pos  position
          */
         _billboard: function(pos) {
-            // http://swiftcoder.wordpress.com/2008/11/25/constructing-a-billboard-matrix/
-
-            this._t(pos);
-
-            mat4.copy(this._mtx, DIV3D._camera._mtx);
-            mat4.transpose(this._mtx, this._mtx);
+            mat4.copy(_tmpMatrix, DIV3D._camera._mtx);
+            mat4.transpose(this._mtx, _tmpMatrix);
 
             var m = this._mtx;
             m[12] = pos[0];
             m[13] = pos[1];
             m[14] = pos[2];
-
-            //_tmpMatrix.scale( object.scale );
 
             m[ 3] = 0;
             m[ 7] = 0;
@@ -340,18 +337,20 @@
             // http://nehe.gamedev.net/article/billboarding_how_to/18011/
             // http://www.lighthouse3d.com/opengl/billboarding/index.php?billCyl
 
-            var camPos = this._camera._from;
+            var camPos = DIV3D._camera._from;
 
-            var look = vec3.create();
-            vec3.sub(look, camPos, pos); // create the look vector: pos -> camPos
+            var look0 = vec3.create(1);
+            vec3.sub(look0, camPos, pos); // create the look vector: pos -> camPos
 
-            look[axisNum] = 0; // we are billboarding along the X axis - zero the look value for x
-            vec3.normalize(look, look);
+            look0[axisNum] = 0; // we are billboarding along the X axis - zero the look value for x
 
-            var up = vec3.create();
+            var look = vec3.create(1);
+            vec3.normalize(look, look0);
+
+            var up = vec3.create(1);
             up[axisNum] = 1;
 
-            var right = vec3.create(); // right hand rule cross products - the up vector is the +x Axis
+            var right = vec3.create(1); // right hand rule cross products - the up vector is the +x Axis
             vec3.cross(right, up, look);
 
             var m = this._mtx;
@@ -487,6 +486,7 @@
             for (var id in this._lookAtDependent) {
                 o = this._objects[id];
                 o._billboard(o._position);
+                //o._billboardAxisAligned(o._position, 1);
             }
         },
 
@@ -577,9 +577,12 @@
          */
         createBillboard: function(opts) {
             var o = this.createRect(opts);
-            o.translate(opts.position);
+            o._position = opts.position;
+            //o.translate(opts.position);
+            //return o;
             this._lookAtDependent[o._id] = true;
-            o._billboard(o._position);
+            //o._billboard(o._position);
+            return o;
         },
 
         /**
