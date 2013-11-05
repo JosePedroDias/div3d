@@ -35,7 +35,7 @@
             "namespaces": {},
             "tag": "main",
             "file": "src/div3d.js",
-            "line": 381,
+            "line": 380,
             "itemtype": "main"
         }
     },
@@ -51,7 +51,7 @@
             "module": "div3d",
             "namespace": "",
             "file": "src/div3d.js",
-            "line": 36,
+            "line": 39,
             "description": "The DQuad class exposes an API to manipulate div3d quads (divs).\n\nThis constructor isn't expected to be called by the end client but via DIV3D's create* methods.",
             "is_constructor": 1,
             "params": [
@@ -78,7 +78,7 @@
             "module": "div3d",
             "namespace": "",
             "file": "src/div3d.js",
-            "line": 381,
+            "line": 380,
             "description": "DIV3D public interface",
             "static": 1
         }
@@ -86,7 +86,7 @@
     "classitems": [
         {
             "file": "src/div3d.js",
-            "line": 58,
+            "line": 61,
             "description": "saves a translation transform for application in the object.",
             "itemtype": "method",
             "name": "translate",
@@ -102,7 +102,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 71,
+            "line": 74,
             "description": "saves a rotation transform for application in the object.",
             "itemtype": "method",
             "name": "rotate",
@@ -123,7 +123,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 86,
+            "line": 89,
             "description": "saves a scaling transform for application in the object.",
             "itemtype": "method",
             "name": "_s",
@@ -139,7 +139,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 99,
+            "line": 102,
             "description": "sets the div dimensions. the divs keeps centered over its pivot point.",
             "itemtype": "method",
             "name": "resize",
@@ -160,7 +160,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 145,
+            "line": 148,
             "description": "adds a CSS class / several classes to the object's DOM element.",
             "itemtype": "method",
             "name": "addClass",
@@ -176,7 +176,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 165,
+            "line": 168,
             "description": "removes a CSS class / several classes from the object's DOM element.",
             "itemtype": "method",
             "name": "removeClass",
@@ -192,7 +192,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 185,
+            "line": 188,
             "description": "sets the object's opacity.",
             "itemtype": "method",
             "name": "opacity",
@@ -208,7 +208,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 196,
+            "line": 199,
             "description": "sets the object's color.",
             "itemtype": "method",
             "name": "color",
@@ -224,7 +224,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 206,
+            "line": 209,
             "description": "sets the DOM element's inner HTML from the given markup.",
             "params": [
                 {
@@ -238,7 +238,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 215,
+            "line": 218,
             "description": "centers one line of text in the div.",
             "itemtype": "method",
             "name": "centerText",
@@ -247,7 +247,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 228,
+            "line": 231,
             "description": "call this method once you're done with updating transformations to apply the matrix to the DOM element via transform: matrix3d()",
             "access": "private",
             "tagname": "",
@@ -258,7 +258,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 242,
+            "line": 245,
             "description": "clears transformation matrix (sets it to the identity matrix).\nuse this prior to assigning a new set of matrices to transform an object.",
             "access": "private",
             "tagname": "",
@@ -269,7 +269,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 253,
+            "line": 256,
             "description": "immediate translation of the object's internal matrix.",
             "access": "private",
             "tagname": "",
@@ -287,7 +287,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 264,
+            "line": 267,
             "description": "immediate rotation of the object's internal matrix.",
             "access": "private",
             "tagname": "",
@@ -310,7 +310,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 276,
+            "line": 279,
             "description": "immediate scaling of the object's internal matrix.",
             "access": "private",
             "tagname": "",
@@ -328,7 +328,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 290,
+            "line": 293,
             "description": "returns a clone of the internal matrix.",
             "access": "private",
             "tagname": "",
@@ -343,8 +343,8 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 301,
-            "description": "implements the billboard behavior. TODO",
+            "line": 304,
+            "description": "implements the billboard behavior.",
             "access": "private",
             "tagname": "",
             "itemtype": "method",
@@ -361,7 +361,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 331,
+            "line": 328,
             "description": "implements the axis-aligned billboard behavior. TODO",
             "access": "private",
             "tagname": "",
@@ -384,7 +384,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 397,
+            "line": 396,
             "description": "should be called once at the start.",
             "itemtype": "method",
             "name": "init",
@@ -393,7 +393,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 438,
+            "line": 437,
             "description": "should be called at the beginning of the requestAnimationFrame callback, passing it its first argument.\nthe API exposes DIV3D._t and DIV3D._dt",
             "itemtype": "method",
             "name": "time",
@@ -417,7 +417,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 456,
+            "line": 455,
             "description": "gets an object from its id.",
             "itemtype": "method",
             "name": "get",
@@ -437,7 +437,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 467,
+            "line": 466,
             "description": "updates point of view.",
             "itemtype": "method",
             "name": "lookAt",
@@ -635,7 +635,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 585,
+            "line": 588,
             "description": "creates a 6 sided box. The order of the faces is -x, +x, -y, +y, -z, +z.",
             "itemtype": "method",
             "name": "createBox",
@@ -685,7 +685,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 649,
+            "line": 652,
             "description": "creates a div object.",
             "access": "private",
             "tagname": "",
@@ -712,7 +712,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 680,
+            "line": 683,
             "description": "register the new div.",
             "access": "private",
             "tagname": "",
@@ -739,7 +739,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 696,
+            "line": 699,
             "description": "updates the DOM.",
             "access": "private",
             "tagname": "",
@@ -750,7 +750,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 716,
+            "line": 719,
             "description": "called internally prior to frame rendering.",
             "access": "private",
             "tagname": "",
@@ -773,7 +773,7 @@
         },
         {
             "file": "src/div3d.js",
-            "line": 732,
+            "line": 735,
             "description": "callback that gets called on window resize.",
             "access": "private",
             "tagname": "",
@@ -786,11 +786,11 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/div3d.js:290"
+            "line": " src/div3d.js:293"
         },
         {
             "message": "Missing item type\nsets the DOM element's inner HTML from the given markup.",
-            "line": " src/div3d.js:206"
+            "line": " src/div3d.js:209"
         }
     ]
 }
